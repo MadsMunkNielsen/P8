@@ -1,0 +1,74 @@
+\chapter{Data}
+\section{Introduction}
+The PK models in this section will be fitted using NLMM with the nlmixr2 package \citep{nlmixr, nlmixrarticle}. To be able to fit a model, a model specification, a dataset, and an estimation method must be provided.
+
+The model specification must include initial values and potential boundaries for $\beta$, residual error variance, $\sigma^2$, and for the entries in $\Omega$. The functional forms of the $p$ entries in $d$ from \eqref{eq: NLME Stage 2}, along with the error model, must be specified.
+The functional form of \ref{eq: NLME Stage 1} is specified by solving a system of given ODEs describing the mass balance equations for the given compartments, e.g. \eqref{eq: first order kinetic of amount in one com without abs}, \eqref{eq: first order kinetic of amount in central com with abs com}, or \eqref{eq: 2-comp central}.
+
+% data structure
+The data require at least a unique subject identifier, timestamp of the observations, a dependent variable, an amount or rate of drug, and an event identifier to describe the observation \citep{nlmixrarticle}. 
+
+% estimation method
+The FOCEI, covered in \ref{sec: Estimation methods}, is used as the estimation method, however, other methods, e.g. FO, FOCE, and saem, are also supported. 
+
+
+
+
+%output
+% The output of the nlmixr function is metrics of goodness of fit, i.e. objective function, information criteria, log likelihood, and condition number, the run time of the fitting process, the subject specific parameters with standard errors, residual squared error, BSV, and shrinkage, the fitted omega matrix and lastly the fitted data 
+
+% metrics of goodness of fit
+% The run time to fit the model
+% the population parameter estimates + residual error
+% Omega matrix
+% fitted values for $\beta$s, $\eta$s and $\e_i$s
+
+
+\section{Erfaringer}
+\begin{itemize}
+    \item eta omkring 15
+    \item Mindst 10 observationer
+    \item prop.sd på omkring 0.4. For lav prop.sd kan give problemer
+\end{itemize}
+
+
+% Input for Coef tables
+\input{fig/tab/Coef/coefSummary_BW_ETA_ALL_CP}
+\input{fig/tab/Coef/coefSummary_BW_ETA_ALL_DV}
+\input{fig/tab/Coef/coefSummary_BW_ETA_CLQ_CP}
+\input{fig/tab/Coef/coefSummary_BW_ETA_CLQ_DV}
+\input{fig/tab/Coef/coefSummary_BW_ETA_V_CP}
+\input{fig/tab/Coef/coefSummary_BW_ETA_V_DV}
+\input{fig/tab/Coef/coefSummary_ETA_ALL_CP}
+\input{fig/tab/Coef/coefSummary_ETA_ALL_DV}
+\input{fig/tab/Coef/coefSummary_ETA_CLQ_CP}
+\input{fig/tab/Coef/coefSummary_ETA_CLQ_DV}
+\input{fig/tab/Coef/coefSummary_ETA_V_CP}
+\input{fig/tab/Coef/coefSummary_ETA_V_DV}
+\input{fig/tab/Coef/coefSummary_NoBSV_CP}
+\input{fig/tab/Coef/coefSummary_NoBSV_DV}
+
+% Input for MSE tables
+\input{fig/tab/MSE/MSE_All_BW}
+\input{fig/tab/MSE/MSE_All}
+\input{fig/tab/MSE/MSE_CL_BW}
+\input{fig/tab/MSE/MSE_CL}
+\input{fig/tab/MSE/MSE_None}
+\input{fig/tab/MSE/MSE_V_BW}
+\input{fig/tab/MSE/MSE_V}
+
+% Input for StatSummary tables
+\input{fig/tab/StatSummary/statSummary_BW_ETA_ALL_CP}
+\input{fig/tab/StatSummary/statSummary_BW_ETA_ALL_DV}
+\input{fig/tab/StatSummary/statSummary_BW_ETA_CLQ_CP}
+\input{fig/tab/StatSummary/statSummary_BW_ETA_CLQ_DV}
+\input{fig/tab/StatSummary/statSummary_BW_ETA_V_CP}
+\input{fig/tab/StatSummary/statSummary_BW_ETA_V_DV}
+\input{fig/tab/StatSummary/statSummary_ETA_ALL_CP}
+\input{fig/tab/StatSummary/statSummary_ETA_ALL_DV}
+\input{fig/tab/StatSummary/statSummary_ETA_CLQ_CP}
+\input{fig/tab/StatSummary/statSummary_ETA_CLQ_DV}
+\input{fig/tab/StatSummary/statSummary_ETA_V_CP}
+\input{fig/tab/StatSummary/statSummary_ETA_V_DV}
+\input{fig/tab/StatSummary/statSummary_NoBSV_CP}
+\input{fig/tab/StatSummary/statSummary_NoBSV_DV}
