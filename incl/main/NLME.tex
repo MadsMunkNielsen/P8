@@ -398,12 +398,14 @@ Insert \eqref{eq: marginal distribution of y_i under normality} as $p_y$ in \eqr
 \subsection{FOCE-i}
 Kilder brugt: \cite{Almquist2015}, \cite{Bae2016}, \cite{Savic2009}, \cite{Wang2007}, \cite{Davidian1995}.
 
+Focei estimation is the general method including the simpler versions foce and fo. 
+
 Given a complex integral, $ \int_\Omega f(x) \ dx$, with $f$ twice differentiable, and $f(x)>0 \ \forall x \in \Omega$, $f(x)$ can be expressed as $\exp g(x)$ with $g(x)=\log f(x)$. If $\frac{d^2 g(x)}{d x^2}\big\rvert_{x=x_0}<0$, then
 \begin{align*}
     \int_\Omega f(x) \ dx &\approx \int_\Omega \exp g(x_0) +(x-x_0) \cdot\frac{d g(x)}{d x}\Big\rvert_{x=x_0} +\frac{(x-x_0)^2}{2!} \cdot \frac{d^2 g(x)}{d x^2}\Big\rvert_{x=x_0}\ dx
     % &=f(x_0) \cdot \sqrt{\frac{(2\pi)^r}{\left|-\frac{d g(x)}{d^2 x}\Big\rvert_{x=x_0}\right|}}
 \end{align*}
-is the Laplacian approximation, obtained using a second-order Taylor expansion of $g(x)$ around $x_0$. The last equality is obtained using the moment generating function of a normal random variable, with derivations provided in \cite{Wang2007} (pp. 588-589).
+is the Laplacian approximation of the true integration, obtained using a second-order Taylor expansion of $g(x)$ around $x_0$. 
 
 Laplacian approximation can be used to approximate \eqref{eq: likelihood for parameters} by letting $f(\eta_i)=p_{y\mid  \eta}\cdot p_\eta$ denote the joint density under the assumption of normality. Then
 \begin{align*}
@@ -416,12 +418,13 @@ The focei estimation method uses the Laplacian approximation with a Taylor expan
 % \end{align*}
 The approximation of \eqref{eq: likelihood for parameters} is then
 \begin{align}
-    L(\beta,\xi,\Omega\mid  y_1,y_2,\dots,y_N)&\approx \prod_{i=1}^N\int_{\R^r} \exp g(\eta_i^\ast) +\frac{(\eta_i-\eta_i^\ast)^2}{2!} \Delta_i(\eta_i^\ast)\ d\eta_i \\
-    &= f(\eta_i^\ast) \cdot \sqrt{\frac{(2\pi)^r}{\left|-\Delta_i(\eta_i^\ast)\right|}}.
+    L(\beta,\xi,\Omega\mid  y_1,y_2,\dots,y_N)&\approx \prod_{i=1}^N\int_{\R^r} \exp g(\eta_i^\ast) +\frac{(\eta_i-\eta_i^\ast)^2}{2!} \Delta_i(\eta_i^\ast)\ d\eta_i \nonumber \\
+    &= f(\eta_i^\ast) \cdot \sqrt{\frac{(2\pi)^r}{\left|-\Delta_i(\eta_i^\ast)\right|}}.\label{eq: approx laplace likelihood}
 \end{align}
-\begin{align}
-    L(\beta,\xi,\Omega\mid  y_1,y_2,\dots,y_N)&\approx \prod_{i=1}^N f(\eta_i^\ast) \cdot \sqrt{\frac{(2\pi)^r}{\left|-\Delta_i(\eta_i^\ast)\right|}}. \label{eq: approx laplace likelihood}
-\end{align}
+% \begin{align}
+%     L(\beta,\xi,\Omega\mid  y_1,y_2,\dots,y_N)&\approx \prod_{i=1}^N f(\eta_i^\ast) \cdot \sqrt{\frac{(2\pi)^r}{\left|-\Delta_i(\eta_i^\ast)\right|}}. 
+% \end{align}
+The last equality is obtained using the moment generating function of a normal random variable, with derivations provided in \cite{Wang2007} (pp. 588-589). 
 
 The focei objective function is obtained by multiplying \eqref{eq: approx laplace likelihood} by $-2$, taking the logarithm, and using an estimate of the Hessian matrix, $\hat\Delta_i$, i.e.
 \begin{align*}
