@@ -1,0 +1,26 @@
+{
+  "cells": [
+    {
+      "cell_type": "raw",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: Presentation\n",
+        "format:\n",
+        "  html:\n",
+        "    code-fold: true\n",
+        "---"
+      ],
+      "id": "7b376781"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
