@@ -1,4 +1,5 @@
 # Loading packages
+# setwd("C:/Users/MMXF/OneDrive - Novo Nordisk/8. Semester/P8/code")
 library(tidyverse)
 library(mrgsolve)
 library(nlmixr2)
