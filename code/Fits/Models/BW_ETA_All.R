@@ -86,16 +86,13 @@ coefSummary_BW_ETA_ALL_CP <- coefSummary[grep("BW_ETA_ALL_CP_", rownames(coefSum
 coefSummary_BW_ETA_ALL_DV <- coefSummary[grep("BW_ETA_ALL_DV_", rownames(coefSummary)), ]
 
 
-# Est værdier ud
+for (result_name in names(resultsBW)) {
+  if (!is.null(resultsBW[[result_name]]$parFixed)) {
+    
+    # Create a new data frame for the current result_name
+    current_data_frame <- resultsBW[[result_name]]$parFixed
 
-#fit2 <- predict(resultsBW$ETA_ALL_DV_100_Init_1)
-
-#result_name
-#parameter_table <- data.frame(
-#    Parameter = resultsBW$ETA_ALL_DV_100_Init_1$param,
-#    Estimate = resultsBW$ETA_ALL_DV_100_Init_1$estimate,
-#    `95% CI` = paste0("[", resultsBW$ETA_ALL_DV_100_Init_1$lcl, " - ", resultsBW$ETA_ALL_DV_100_Init_1$ucl, "]"),
-#    RSE = resultsBW$ETA_ALL_DV_100_Init_1$RSE,
-#    IIV = resultsBW$ETA_ALL_DV_100_Init_1$IIV,
-#    `Shrinkage (%)` = resultsBW$ETA_ALL_DV_100_Init_1$shrinkage
-#)
+    # Create a separate variable for each result_name
+    assign(paste0("two.cmt.BW.parFixed_", result_name), current_data_frame)
+  }
+}

@@ -83,3 +83,16 @@ rownames(coefSummary) <- names(resultsETA)
 
 coefSummary_ETA_ALL_CP <- coefSummary[grep("ETA_ALL_CP_", rownames(coefSummary)), ]
 coefSummary_ETA_ALL_DV <- coefSummary[grep("ETA_ALL_DV_", rownames(coefSummary)), ]
+
+
+
+for (result_name in names(resultsETA)) {
+  if (!is.null(resultsETA[[result_name]]$parFixed)) {
+    
+    # Create a new data frame for the current result_name
+    current_data_frame <- resultsETA[[result_name]]$parFixed
+
+    # Create a separate variable for each result_name
+    assign(paste0("two.cmt.ETA.parFixed_", result_name), current_data_frame)
+  }
+}

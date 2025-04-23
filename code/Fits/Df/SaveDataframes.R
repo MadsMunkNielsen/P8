@@ -83,6 +83,69 @@ kable_output <- kbl(Df,
 cat(kable_output, file = full_path)
 }
 
+DFSAVEtableOne <- function(Df, Dfname, folder = "Fits/Dataframes/") {
+    # Ensure the directory exists
+    if (!dir.exists(folder)) {
+        dir.create(folder, recursive = TRUE)
+    }
+    
+full_path <- paste0(folder, Dfname, ".tex")
+kable_output <- kbl(Df, 
+                    booktabs = TRUE, 
+                    col.names = c("Parameter", "Est", "SE", "RSE", "Back-transformed", "BSV", "Shrinkage"), 
+                    linesep = "",
+                    digits=1, 
+                    "latex") %>%
+                    kable_classic(full_width = TRUE) %>%
+                    kable_styling(font_size = 8) %>%
+                    row_spec(0, bold = TRUE) %>%
+                    row_spec(2:nrow(Df)-1, hline_after = TRUE) 
+
+cat(kable_output, file = full_path)
+}
+
+DFSAVEtableFive <- function(Df, Dfname, folder = "Fits/Dataframes/") {
+    # Ensure the directory exists
+    if (!dir.exists(folder)) {
+        dir.create(folder, recursive = TRUE)
+    }
+    
+full_path <- paste0(folder, Dfname, ".tex")
+kable_output <- kbl(Df, 
+                    booktabs = TRUE, 
+                    col.names = c("Parameter", "Est", "Back-transformed", "BSV", "Shrinkage"), 
+                    linesep = "",
+                    digits=1, 
+                    "latex") %>%
+                    kable_classic(full_width = TRUE) %>%
+                    kable_styling(font_size = 8) %>%
+                    row_spec(0, bold = TRUE) %>%
+                    row_spec(2:nrow(Df)-1, hline_after = TRUE) 
+
+cat(kable_output, file = full_path)
+}
+
+DFSAVEtableSeven <- function(Df, Dfname, folder = "Fits/Dataframes/") {
+    # Ensure the directory exists
+    if (!dir.exists(folder)) {
+        dir.create(folder, recursive = TRUE)
+    }
+    
+full_path <- paste0(folder, Dfname, ".tex")
+kable_output <- kbl(Df, 
+                    booktabs = TRUE, 
+                    col.names = c("Parameter", "Est", "SE", "RSE", "Back-transformed", "BSV", "Shrinkage"), 
+                    linesep = "",
+                    digits=1, 
+                    "latex") %>%
+                    kable_classic(full_width = TRUE) %>%
+                    kable_styling(font_size = 8) %>%
+                    row_spec(0, bold = TRUE) %>%
+                    row_spec(2:nrow(Df)-1, hline_after = TRUE) 
+
+cat(kable_output, file = full_path)
+}
+
 
 dataframesMSE <- list(
     list(df = MSE_All_BW, name = "MSE_All_BW"),
@@ -112,6 +175,56 @@ dataframesStat <- list(
     list(df = statSummary_1Comp_DV, name = "statSummary_1Comp_DV")
 )
 
+dataframestableOne <- list(
+    list(df = one.cmt.parFixed_Comp_CP_10_Init_1, name = "one.cmt.parFixed_Comp_CP_10_Init_1"),
+    list(df = one.cmt.parFixed_Comp_CP_100_Init_1, name = "one.cmt.parFixed_Comp_CP_100_Init_1"),
+    list(df = one.cmt.parFixed_Comp_CP_25_Init_1, name = "one.cmt.parFixed_Comp_CP_25_Init_1"),
+    list(df = one.cmt.parFixed_Comp_CP_50_Init_1, name = "one.cmt.parFixed_Comp_CP_50_Init_1"),
+    list(df = one.cmt.parFixed_Comp_DV_10_Init_1, name = "one.cmt.parFixed_Comp_DV_10_Init_1"),
+    list(df = one.cmt.parFixed_Comp_DV_100_Init_1, name = "one.cmt.parFixed_Comp_DV_100_Init_1"),
+    list(df = one.cmt.parFixed_Comp_DV_25_Init_1, name = "one.cmt.parFixed_Comp_DV_25_Init_1"),
+    list(df = one.cmt.parFixed_Comp_DV_50_Init_1, name = "one.cmt.parFixed_Comp_DV_50_Init_1")
+)
+
+dataframestableFive <- list(
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_CP_10_Init_1, name = "two.cmt.BW.parFixed_BW_ETA_ALL_CP_10_Init_1"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_CP_10_Init_2, name = "two.cmt.BW.parFixed_BW_ETA_ALL_CP_10_Init_2"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_CP_25_Init_2, name = "two.cmt.BW.parFixed_BW_ETA_ALL_CP_25_Init_2"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_CP_50_Init_2, name = "two.cmt.BW.parFixed_BW_ETA_ALL_CP_50_Init_2"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_DV_10_Init_2, name = "two.cmt.BW.parFixed_BW_ETA_ALL_DV_10_Init_2"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_DV_50_Init_1, name = "two.cmt.BW.parFixed_BW_ETA_ALL_DV_50_Init_1"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_DV_25_Init_1, name = "two.cmt.BW.parFixed_BW_ETA_ALL_DV_25_Init_1"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_DV_25_Init_2, name = "two.cmt.BW.parFixed_BW_ETA_ALL_DV_25_Init_2"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_CP_10_Init_1, name = "two.cmt.ETA.parFixed_ETA_ALL_CP_10_Init_1"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_CP_25_Init_1, name = "two.cmt.ETA.parFixed_ETA_ALL_CP_25_Init_1"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_DV_25_Init_2, name = "two.cmt.ETA.parFixed_ETA_ALL_DV_25_Init_2"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_DV_10_Init_1, name = "two.cmt.ETA.parFixed_ETA_ALL_DV_10_Init_1"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_DV_10_Init_2, name = "two.cmt.ETA.parFixed_ETA_ALL_DV_10_Init_2"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_DV_100_Init_1, name = "two.cmt.ETA.parFixed_ETA_ALL_DV_100_Init_1"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_DV_25_Init_1, name = "two.cmt.ETA.parFixed_ETA_ALL_DV_25_Init_1"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_DV_50_Init_1, name = "two.cmt.ETA.parFixed_ETA_ALL_DV_50_Init_1"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_DV_50_Init_2, name = "two.cmt.ETA.parFixed_ETA_ALL_DV_50_Init_2")
+)
+
+dataframestableSeven <- list(
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_CP_100_Init_1, name = "two.cmt.BW.parFixed_BW_ETA_ALL_CP_100_Init_1"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_CP_100_Init_2, name = "two.cmt.BW.parFixed_BW_ETA_ALL_CP_100_Init_2"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_CP_25_Init_1, name = "two.cmt.BW.parFixed_BW_ETA_ALL_CP_25_Init_1"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_CP_50_Init_1, name = "two.cmt.BW.parFixed_BW_ETA_ALL_CP_50_Init_1"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_DV_10_Init_1, name = "two.cmt.BW.parFixed_BW_ETA_ALL_DV_10_Init_1"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_DV_100_Init_1, name = "two.cmt.BW.parFixed_BW_ETA_ALL_DV_100_Init_1"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_DV_100_Init_2, name = "two.cmt.BW.parFixed_BW_ETA_ALL_DV_100_Init_2"),
+    list(df = two.cmt.BW.parFixed_BW_ETA_ALL_DV_50_Init_2, name = "two.cmt.BW.parFixed_BW_ETA_ALL_DV_50_Init_2"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_CP_10_Init_2, name = "two.cmt.ETA.parFixed_ETA_ALL_CP_10_Init_2"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_CP_100_Init_1, name = "two.cmt.ETA.parFixed_ETA_ALL_CP_100_Init_1"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_CP_100_Init_2, name = "two.cmt.ETA.parFixed_ETA_ALL_CP_100_Init_2"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_CP_50_Init_1, name = "two.cmt.ETA.parFixed_ETA_ALL_CP_50_Init_1"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_CP_50_Init_2, name = "two.cmt.ETA.parFixed_ETA_ALL_CP_50_Init_2"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_DV_100_Init_2, name = "two.cmt.ETA.parFixed_ETA_ALL_DV_100_Init_2"),
+    list(df = two.cmt.ETA.parFixed_ETA_ALL_DV_25_Init_2, name = "two.cmt.ETA.parFixed_ETA_ALL_DV_25_Init_2")
+)
+
+
 
 for (item in dataframesMSE) {
     DFSAVEmse(item$df, item$name)
@@ -129,7 +242,14 @@ for (item in dataframesStat) {
     DFSAVEstat(item$df, item$name)
 }
 
+for (item in dataframestableOne) {
+    DFSAVEtableOne(item$df, item$name)
+}
 
-# Overvej at lave de her dataframes
-test <- results$ETA_ALL_DV_100_Init_1$parFixedDf
-omega <- results$ETA_ALL_DV_100_Init_1$omega
+for (item in dataframestableFive) {
+    DFSAVEtableFive(item$df, item$name)
+}
+
+for (item in dataframestableSeven) {
+    DFSAVEtableSeven(item$df, item$name)
+}

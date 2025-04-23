@@ -2,7 +2,7 @@ source("Fits/Models/Models.R")
 
 
 # Amount of subjects to include in the model
-Amount_Of_Subjects <- c(100)
+Amount_Of_Subjects <- c(10, 25, 50, 100)
 
 # Specify the estimation method 
 estMethod <- "focei"
@@ -17,8 +17,8 @@ results1Comp <- list()
 for (i in Amount_Of_Subjects) {
   for (j in 1:length(initials_list)) {
     # Create key for storing results1Comp
-    key_cp <- paste0("1Comp_CP_", i, "_Init_", j)
-    key_dv <- paste0("1Comp_DV_", i, "_Init_", j)
+    key_cp <- paste0("Comp_CP_", i, "_Init_", j)
+    key_dv <- paste0("Comp_DV_", i, "_Init_", j)
 
     # Fit for CP
     results1Comp[[key_cp]] <- nlmixr(
@@ -52,8 +52,8 @@ for (result_name in names(results1Comp)) {
 rownames(statSummary) <- names(results1Comp)
 
 # Create data frames for each group based on a pattern
-statSummary_1Comp_CP <- statSummary[grep("1Comp_CP_", rownames(statSummary)), ]
-statSummary_1Comp_DV <- statSummary[grep("1Comp_DV_", rownames(statSummary)), ]
+statSummary_Comp_CP <- statSummary[grep("Comp_CP_", rownames(statSummary)), ]
+statSummary_Comp_DV <- statSummary[grep("Comp_DV_", rownames(statSummary)), ]
 
 
 
@@ -80,5 +80,18 @@ for (result_name in names(results1Comp)) {
 
 rownames(coefSummary) <- names(results1Comp)
 
-coefSummary_1Comp_CP <- coefSummary[grep("1Comp_CP_", rownames(coefSummary)), ]
-coefSummary_1Comp_DV <- coefSummary[grep("1Comp_DV_", rownames(coefSummary)), ]
+coefSummary_Comp_CP <- coefSummary[grep("Comp_CP_", rownames(coefSummary)), ]
+coefSummary_Comp_DV <- coefSummary[grep("Comp_DV_", rownames(coefSummary)), ]
+
+
+
+for (result_name in names(results1Comp)) {
+  if (!is.null(results1Comp[[result_name]]$parFixed)) {
+    
+    # Create a new data frame for the current result_name
+    current_data_frame <- results1Comp[[result_name]]$parFixed
+
+    # Create a separate variable for each result_name
+    assign(paste0("one.cmt.parFixed_", result_name), current_data_frame)
+  }
+}
