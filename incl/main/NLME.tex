@@ -356,58 +356,49 @@ An additive error model can inappropriately yield negative concentrations, see F
 % \subsection{The Likelihood Function}
 Fundamental to NLMM is the fact that \eqref{eq: NLME Stage 1} requires an assumption about the distribution of $\eta_i$, while \eqref{eq: NLME Stage 2} requires an assumption about the distribution of $y_i \mid \eta_i$, as $y_i$ depends on $\eta_i$ through $\theta_i$. Thus, the joint density of $(y_i, \eta_i)$ is given by
 \begin{align*}
-    p_{y,\eta}(y_i,\eta_i\mid x_i,\beta,\xi,\Omega)=p_{y\mid \eta}(y_i\mid x_i,\eta_i,\beta,\xi)p_\eta(\eta_i\mid \Omega),
+    p_{y,\eta}(y_i,\eta_i\mid x_i,\Theta)=p_{y\mid \eta}(y_i\mid x_i,\eta_i,\beta,\xi)p_\eta(\eta_i\mid \Omega),
 \end{align*}
 where $p_{y\mid  \eta}$ is the conditional density of $y_i \mid \eta_i$, and $p_\eta$ is the density of $\eta_i$. Remind that $x_i =(u_i,a_i)$ is the collection of covariates for subject $i$. The random effects serve as latent variables, implying that $\eta_i$ is unobservable. Consequently, a marginalisation w.r.t. $\eta_i$ yields the marginal distribution of $y_i$,
 \begin{align}
     p_y(y_i\mid x_i,\beta,\xi)=\int_{\R^r} p_{y\mid \eta}(y_i\mid x_i,\beta,\eta_i,\xi)p_\eta(\eta_i\mid  \Omega)d\eta_i. \label{eq: marginal distribution of y_i}
 \end{align}
 
-The likelihood function for $\beta$, $\xi$, $\Omega$ can be expressed as the joint density of the observed data $y_1,y_2,\dots,y_N$ given $x_i$, which, by independence across $i$, is given by the product of the marginal densities \eqref{eq: marginal distribution of y_i},
+The likelihood function for $\Theta$ can be expressed as the joint density of the observed data $y_1,y_2,\dots,y_N$ given $x_i$, which, by independence across $i$, is given by the product of the marginal densities \eqref{eq: marginal distribution of y_i},
 \begin{align}
-    L(\beta,\xi,\Omega\mid  y_1,y_2,\dots,y_N)&=\prod_{i=1}^N  p_y(y_i\mid x_i,\beta,\xi)  \nonumber \\&=\prod_{i=1}^N\int_{\R^r} p_{y\mid \eta}(y_i\mid x_i,\beta,\eta_i,\xi)p_\eta(\eta_i\mid  \Omega)d\eta_i.\label{eq: likelihood for parameters}
+    L(\Theta\mid  y_1,y_2,\dots,y_N)&=\prod_{i=1}^N\int_{\R^r} p_{y\mid \eta}(y_i\mid x_i,\beta,\eta_i,\xi)p_\eta(\eta_i\mid  \Omega)d\eta_i.\label{eq: likelihood for parameters}
 \end{align}
-The $N$ $r$-dimensional integrations that appear in \eqref{eq: likelihood for parameters} do not have a closed form expression -- neither when normality is assumed. This is due to the fact that the estimation of $\xi$ depends on the estimation of $\Omega$, i.e. $e_i$ is dependent on $\eta_i$, further complicated by the non-linearity of $g(\cdot)$. Instead, the integration must be done by numeric approximation.
 
-\section{Estimation methods used in nlmixr}
-Vi tager udgangspunkt i FOCE-i algoritmen, FOCE og FO er simplere specialtilfælde. Denne metode bruger en approksimation af likelihood-funktionen - her findes flere metoder til dette. Det approksimerede likelihood skal maksimeres (outer optimisation problem), men det er baseret på et fast estimat for de random effects, som også skal estimeres (inner problem). 
-
-The default inner optimisation algorithm used in nlmixr is a Quasi-Newton Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm without constraints which is an iterative method for solving unconstrained nonlinear optimization problems. The package used is 'n1qn1' which allows prespecification of Hessian. This package is an R port of the optimisation procedure in scilab.
-
-
-This inner optimisation problem needs specification og the objective function (call\_eval), the gradient function (call\_grad) and the initial starting point for line search (vars). Så hvad er objective og gradient function?
-
-kan ex. være en Laplace transformation med second order Taylorudvikling af g(eta) omkring eta (EBE). EBE skal også estimeres 
-
-
-\subsection{The Likelihood under Normality}
-By the assumption of normality, i.e. $e_i\mid \theta_i \sim N(0,R_i)$ and $\eta_i \sim N(0,\Omega)$, the densities $p_{y\mid \eta}$ and $p_{\eta}$ are given by
+Under the assumption of normality, i.e. $e_i\mid \theta_i \sim N(0,R_i)$ and $\eta_i \sim N(0,\Omega)$, the densities $p_{y\mid \eta}$ and $p_{\eta}$ are given by
 \begin{align*}
     p_{y\mid \eta}(y_i\mid x_i,\beta,\eta_i,\xi) &= \frac{1}{(2\pi)^{n_i/2}\mid R_i\mid ^{1/2}}\exp{\left(-\frac{1}{2}\left[y_i-g_i(\theta_i)\right]^\top R_i^{-1}\left[y_i-g_i(\theta_i)\right]\right)},\\
     p_\eta(\eta_i\mid \Omega)&=\frac{1}{(2\pi)^{r/2}\mid \Omega\mid ^{1/2}}\exp{\left(-\frac{1}{2}\eta_i^\top \Omega^{-1}\eta_i\right)}.
 \end{align*}
 
-The marginal density of $y_i$ is then
+The $N$ $r$-dimensional integrations that appear in \eqref{eq: likelihood for parameters} do not have a closed form expression -- neither when normality is assumed. This is due to the fact that the estimation of $\xi$ depends on the estimation of $\Omega$, i.e. $e_i$ is dependent on $\eta_i$, further complicated by the non-linearity of $g$ \citep[p. 254]{bonate}. Instead, the integration must be done by numeric approximation. 
+
+% The marginal density of $y_i$ is then
+% \begin{align}
+%     p_y(y_i\mid x_i,\beta,\xi)=\int_{\R^r}(2\pi)^{-(n_i-r)/2}|R_i|^{-1/2}|\Omega|^{-1/2}\exp{\left(-\frac{1}{2}\Psi(\eta_i)\right)d\eta_i}, \label{eq: marginal distribution of y_i under normality}
+% \end{align}
+% where $\Psi(\eta_i)=\left(y_i-g_i(\theta_i)\right)^\top|R_i|^{-1}\left(y_i-g_i(\theta_i)\right)+\eta_i^\top|\Omega|^{-1}\eta_i$. 
+
+% Insert \eqref{eq: marginal distribution of y_i under normality} as $p_y$ in \eqref{eq: likelihood for parameters} to get the likelihood function for $\beta$, $\xi$, $\Omega$ under the assumption of normality.
+
+\subsection{First Order Conditional Estimation with Interaction}
+% Kilder brugt: \cite{Almquist2015}, \cite{Bae2016}, \cite{Savic2009}, \cite{Wang2007}, \cite{Davidian1995}.
+First-order conditional estimation with interaction (focei) is a general estimation method including the simpler versions; first-order conditional estimation (foce) and first-order (fo) estimation. The fo and foce methods assume an additive error model, i.e. no interaction between the residual error and the random effects, while focei can be used for any error model \citep{Bae2016}. 
+
+Fo estimation assumes $\eta=0$, while foce and focei use conditional estimates of $\eta_i$, obtained from an inner optimisation problem. The conditional estimates of $\eta_i$ are then considered fixed when minimising the objective function in the outer optimisation problem. The estimation proceeds by iterating through the inner and outer optimisation problem for some number of iterations, or until convergence.
+
+Generally, there are two methods to derive the focei objective function: Laplace approximation of the likelihood \eqref{eq: likelihood for parameters}, or first-order linearisation of $g(t, u_i, \theta_i)$ in \eqref{eq: NLME Stage 1} \citep[p. 161]{Bae2016}. The fo and foce methods produce the same objective function, whereas the focei method does not \citep[p. 581]{Wang2007}. NONMEM uses the focei objective function obtained with Laplacian approximation \citep[p. 585]{Wang2007}, and nlmixr has been shown to yield the equivalent objective function \citep{nlmixr}. For this reason, the focei objective function is derived using Laplacian approximation.
+
+Given a complex integral, $ \int_\Omega f(x) \ dx$, with $f$ twice differentiable, and $f(x)>0 \ \forall x \in \Omega$, $f(x)$ can be expressed as $\ep{g(x)}$ with $g(x)=\log f(x)$. If $\frac{d^2 g(x)}{d x^2}\big\rvert_{x=x_0}<0$, then
 \begin{align}
-    p_y(y_i\mid x_i,\beta,\xi)=\int_{\R^r}(2\pi)^{-(n_i-r)/2}|R_i|^{-1/2}|\Omega|^{-1/2}\exp{\left(-\frac{1}{2}\Psi(\eta_i)\right)d\eta_i}, \label{eq: marginal distribution of y_i under normality}
+    \int_\Omega f(x) \ dx &\approx \int_\Omega \ep {g(x_0) +(x-x_0) \cdot\frac{d g(x)}{d x}\Big\rvert_{x=x_0} +\frac{(x-x_0)^2}{2!} \cdot \frac{d^2 g(x)}{d x^2}\Big\rvert_{x=x_0}}\ dx \label{eq: LAPL approx}
 \end{align}
-where $\Psi(\eta_i)=\left(y_i-g_i(\theta_i)\right)^\top|R_i|^{-1}\left(y_i-g_i(\theta_i)\right)+\eta_i^\top|\Omega|^{-1}\eta_i$. 
-
-Insert \eqref{eq: marginal distribution of y_i under normality} as $p_y$ in \eqref{eq: likelihood for parameters} to get the likelihood function for $\beta$, $\xi$, $\Omega$ under the assumption of normality.
-
-\subsection{FOCE-i}
-Kilder brugt: \cite{Almquist2015}, \cite{Bae2016}, \cite{Savic2009}, \cite{Wang2007}, \cite{Davidian1995}.
-
-Focei estimation is the general method including the simpler versions foce and fo. 
-
-Given a complex integral, $ \int_\Omega f(x) \ dx$, with $f$ twice differentiable, and $f(x)>0 \ \forall x \in \Omega$, $f(x)$ can be expressed as $\exp g(x)$ with $g(x)=\log f(x)$. If $\frac{d^2 g(x)}{d x^2}\big\rvert_{x=x_0}<0$, then
-\begin{align*}
-    \int_\Omega f(x) \ dx &\approx \int_\Omega \exp g(x_0) +(x-x_0) \cdot\frac{d g(x)}{d x}\Big\rvert_{x=x_0} +\frac{(x-x_0)^2}{2!} \cdot \frac{d^2 g(x)}{d x^2}\Big\rvert_{x=x_0}\ dx
-    % &=f(x_0) \cdot \sqrt{\frac{(2\pi)^r}{\left|-\frac{d g(x)}{d^2 x}\Big\rvert_{x=x_0}\right|}}
-\end{align*}
 is the Laplacian approximation of the true integration, obtained using a second-order Taylor expansion of $g(x)$ around $x_0$. 
 
-Laplacian approximation can be used to approximate \eqref{eq: likelihood for parameters} by letting $f(\eta_i)=p_{y\mid  \eta}\cdot p_\eta$ denote the joint density under the assumption of normality. Then
+The Laplacian approximation \eqref{eq: LAPL approx} can be used to approximate \eqref{eq: likelihood for parameters} by letting $f(\eta_i)=p_{y\mid  \eta}\cdot p_\eta$ denote the joint density under the assumption of normality. Then
 \begin{align*}
     g(\eta_i)=\log\left[\frac{1}{(2\pi)^{n_i/2}|R_i|^{1/2}}\right]-\frac{1}{2}\left[e_i^\top R_i e_i\right] + \log \left[\frac{1}{(2\pi)^{r/2}|\Omega|^{1/2}}\right] -\frac{1}{2}\left[\eta_i^\top \Omega \eta_i\right].
 \end{align*}
@@ -418,132 +409,116 @@ The focei estimation method uses the Laplacian approximation with a Taylor expan
 % \end{align*}
 The approximation of \eqref{eq: likelihood for parameters} is then
 \begin{align}
-    L(\beta,\xi,\Omega\mid  y_1,y_2,\dots,y_N)&\approx \prod_{i=1}^N\int_{\R^r} \exp g(\eta_i^\ast) +\frac{(\eta_i-\eta_i^\ast)^2}{2!} \Delta_i(\eta_i^\ast)\ d\eta_i \nonumber \\
-    &= f(\eta_i^\ast) \cdot \sqrt{\frac{(2\pi)^r}{\left|-\Delta_i(\eta_i^\ast)\right|}}.\label{eq: approx laplace likelihood}
+    L(\Theta\mid  y_1,y_2,\dots,y_N)&\approx \prod_{i=1}^N\int_{\R^r} \ep { g(\eta_i^\ast) +\frac{(\eta_i-\eta_i^\ast)^2}{2!} \Delta_i(\eta_i^\ast)} \ d\eta_i \nonumber \\
+    &= f(\eta_i^\ast) \cdot \sqrt{\frac{(2\pi)^r}{\left|-\Delta_i(\eta_i^\ast)\right|}},\label{eq: approx laplace likelihood}
 \end{align}
-% \begin{align}
-%     L(\beta,\xi,\Omega\mid  y_1,y_2,\dots,y_N)&\approx \prod_{i=1}^N f(\eta_i^\ast) \cdot \sqrt{\frac{(2\pi)^r}{\left|-\Delta_i(\eta_i^\ast)\right|}}. 
-% \end{align}
-The last equality is obtained using the moment generating function of a normal random variable, with derivations provided in \cite{Wang2007} (pp. 588-589). 
+where the last equality is obtained using the moment generating function of a normal random variable, with derivations provided in \cite{Wang2007} (pp. 588-589). 
 
 The focei objective function is obtained by multiplying \eqref{eq: approx laplace likelihood} by $-2$, taking the logarithm, and using an estimate of the Hessian matrix, $\hat\Delta_i$, i.e.
-\begin{align*}
-    O_{focei}&=\sum_{i=1}^N -2\log p_{y|\eta}(\eta_i^\ast)-2\log p_\eta(\eta_i^\ast)-\log \frac{(2\pi)^r}{\left|-\hat\Delta_i(\eta_i^\ast)\right|}\\
-    &= \sum_{i=1}^N-2\log p_{y|\eta}(\eta_i^\ast) +\log|\Omega|+{\eta_i^\ast}^\top \Omega^{-1} \eta_i^\ast +\log \left|-\hat\Delta_i(\eta_i^\ast)\right|,
-\end{align*}
+\begin{align}
+    O_{focei}&=\sum_{i=1}^N -2\log p_{y|\eta}(\eta_i^\ast)-2\log p_\eta(\eta_i^\ast)-\log \frac{(2\pi)^r}{\left|-\hat\Delta_i(\eta_i^\ast)\right|} \nonumber \\
+    &= \sum_{i=1}^N-2\log p_{y|\eta}(\eta_i^\ast) +\log|\Omega|+{\eta_i^\ast}^\top \Omega^{-1} \eta_i^\ast +\log \left|-\hat\Delta_i(\eta_i^\ast)\right|, \label{eq: focei objective function}
+\end{align}
 where $\hat\Delta_i$ is approximated 
-by a function of the gradient vector, ignoring the second order derivatives that are costly to compute. The exact form of the elements of $\hat\Delta_i$ are derived in \cite{Almquist2015} (pp. 193-194).
+by a function of the gradient vector, ignoring the second order derivatives that are costly to compute. The explicit form of the elements of $\hat\Delta_i$ are derived in \cite{Almquist2015} (pp. 193-194). 
 
+The foce objective function uses another estimate of $\Delta_i$, where dependence of $R_i$ on $\eta_i$ is ignored \citep[p. 194]{Almquist2015}. The fo objective function has ${\eta_i^\ast}^\top \Omega^{-1} \eta_i^\ast=0$, but includes an extra term arising from the first derivative term in the Taylor expansion as $\frac{dg(\eta_i)}{d\eta_i}\rvert_{\eta_i=0}=0$ is not ensured. The explicit form of the fo and foce objective functions are provided in \cite{Wang2007} (pp. 580-581). 
 
-In the outer optimisation problem, $O_{focei}$ is minimised for fixed values of $\eta_i^\ast$ to update estimates of $\beta,\xi,\Omega$. The inner optimisation, $\eta_i^\ast = \arg \max g(\eta_i)$, is done in each step for fixed values of $\beta,\xi,\Omega$ to update estimates of $\eta_i^\ast$ to be inserted in $O_{focei}$. 
+In both NONMEM and nlmixr, the constant $n_i \log 2\pi$ in $-2\log p_{y|\eta}$ is not included in the focei objective function \eqref{eq: focei objective function} \citep[p. 581]{Wang2007, nlmixr}.
 
-The final estimate of $\hat{\eta_i}$ have an empirical Bayes interpretation (Gilt, 1995), used to determine shrinkage of the subject specific parameters. 
+In the inner optimisation problem, the current estimate of $\Theta$ is fixed to solve $\eta_i^\ast = \arg \max g(\eta_i)$. The obtained estimate $\eta_i^\ast$ is then fixed in \eqref{eq: focei objective function} to solve the outer optimisation problem, i.e. $\hat{\Theta}=\arg_{\Theta} \min O_{focei}$, and this new estimate is then fixed to obtain new estimates of $\eta_i^\ast$. The estimation method is thus based on two optimization procedures, both of which can be specified within nlmixr.
 
-% Shrinkage is defined as
+The final estimates of $\hat{\eta_i}$ have an empirical Bayes interpretation \citep[p. 170]{Davidian1995}, that can be used to determine shrinkage of the subject specific parameters. 
+
+The default inner optimisation algorithm used in nlmixr is a Quasi-Newton Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm without constraints. The package used is 'n1qn1' which is an R port of the optimisation procedure in scilab \citep{n1qn1}. The default outer optimisation problem used in nlmixr is an unconstrained and bounds-constrained quasi-Newton method optimizer from base \textit{R} called 'nlminb' \citep{R-base}. In NONMEM, proprietary closed source optimisation algorithms are used \cite{githubEstimationProceeding}. Differences in final estimates from nlmixr vs. NONMEM can therefore be due to differences in estimation methods.
+
+% \subsection{First-Order Estimation}
+% % FO: No (small) IIV, assumes additive error model. No inner optimisation problem. FOCE: Additive error model. FOCE-i: Proportional (or combined) error model. Generally two methods: Laplacian approximation and linearisation. These two methods yield equivalent objective functions for FO and FOCE, however not for FOCE-i. NONMEM uses the Laplacian approximation. (WANG). What does nlmixr use? FOCE-i, innerOpt = c("n1qn1", "BFGS"), outerOpt = c("nlminb", "bobyqa", "lbfgsb3c", "L-BFGS-B", "mma", "lbfgsbLG", "slsqp",
+% % "Rvmmin").
+% The first-order (FO) method models a linear approximation of \eqref{eq: likelihood for parameters} using a Taylor expansion around $\eta_i=0$. The method uses a Cholesky decomposition of $R_i$, 
+
+% Since $R_i(u_i,\theta_i,\xi)$ is diagonal, its Cholesky decomposition is simply $R_i=R_i^{1/2}R_i^{1/2}$. Let $\epsilon_i \sim (0,I_{n_i})$ and write the residual error as $e_i=R_i^{1/2}\epsilon_i$. This rewriting is justified since $\Ex{e_i \mid \theta}=\Ex{R_i^{1/2}\epsilon_i}=0$ and $\Var{e_i \mid \theta_i}=\Var{R_i^{1/2}\epsilon_i \mid \theta_i }=R_i^{1/2}\Var{\epsilon_i}R_i^{1/2}=R_i$. The model \eqref{eq: NLME Stage 1} can then be written as 
 % \begin{align*}
-%     \eta_{shrink} = 1 - \frac{SD(\hat{\eta})}{\omega}
+%     y_i &= g_i(\theta_i) + R_i^{1/2}(u_i,\theta_i,\xi)\epsilon_i \\
+%     &= g_i(d(a_i,\beta,\eta_i)) + R_i^{1/2}(u_i,d(a_i,\beta,\eta_i),\xi)\epsilon_i, \quad \epsilon_i \sim N(0,I_{n_i}),
+% \end{align*}
+% where the dependence on the $\eta_i$'s are written explicitly.
+
+% The idea is then to use a Taylor expansion around $\eta_i=0$. This yields the first order approximation of $y_i$,
+% \begin{align}
+%     y_i \approx g_i(d(a_i,\beta,0)) + R_i^{1/2}(u_i,d(a_i,\beta,0),\xi)\epsilon_i + (derivA + derivB)\eta_i. \label{eq: FO approx}
+% \end{align}
+% The last term is omitted, as misspecification of second order moments is not as crucial as for first order moments (kilde). Denote derivA $:= Z_i(\beta,0)$ and $e_i^{\ast}:= R_i^{1/2}(u_i,d(a_i,\beta,0),\xi)\epsilon_i$ to get the representation 
+% \begin{align*}
+%        y_i \approx g_i(d(a_i,\beta,0)) + Z_i(\beta,0)\eta_i + e_i^{\ast}. 
+% \end{align*}
+% The approximated marginal first and second moment of $y_i$ is then
+% \begin{align*}
+%     \Ex{y_i} &\approx g_i(d(a_i,\beta,0)),\\
+%     \Var{y_i} &\approx \Var{Z_i(\beta,0)\eta_i} + \Var{e_i^{\ast}}\\
+%     &= Z_i(\beta,0)\Var{\eta_i}Z_i^{\top}(\beta,0) + R_i^{1/2}(u_i,d(a_i,\beta,0),\xi)\Var{\epsilon_i}R_i^{1/2}(u_i,d(a_i,\beta,0),\xi)\\
+%     &=  Z_i(\beta,0)\Omega Z_i^{\top}(\beta,0) + R_i^{1/2}(u_i,d(a_i,\beta,0),\xi)\\
+%     &=:V_i(\beta,0,\xi,\Omega).
+% \end{align*}
+% Under the assumption of normality, i.e. $e_i \sim N(0,V_i(\beta,0,\xi,\Omega))$ and $\eta_i \sim N(0,\Omega)$, the marginal density of $y_i$ is
+% \begin{align*}
+%         p_{y}(y_i\mid x_i,\beta,\xi,D) &= \frac{1}{(2\pi)^{n_i/2}\mid V_i(\cdot)\mid ^{1/2}}\exp{\left(-\frac{1}{2}Q(\cdot)\right)},
+% \end{align*}
+% where $Q(\cdot)=\left[y_i-g_i(d(a_i,\beta,0))-Z_i(\beta,0)\eta_i\right]^\top V_i^{-1}(\cdot)\left[y_i-g_i(d(a_i,\beta,0))-Z_i(\beta,0)\eta_i\right]$. The likelihood is then given by
+% \begin{align*}
+%     L(\beta,\xi,\Omega \mid y_1,\dots,y_N)=\prod_{i=1}^N p_{y}(y_i\mid x_i,\beta,\xi,D),
+% \end{align*}
+% and thus the log likelihood is
+% \begin{align*}
+%     l(\beta,\xi,\Omega \mid y_1,\dots,y_N)=\sum_{i=1}^N p_{y}(y_i\mid x_i,\beta,\xi,D) \propto \sum_{i=1}^N-\frac{1}{2}\log|V_i(\cdot)|-\frac{1}{2}Q.
+% \end{align*}
+% Multiply this with $-2$ to get the objective function to be minimised,
+% \begin{align*}
+% L_{FO}=\sum_{i=1}^N\log|V_i(\cdot)|+Q(\cdot),
+% \end{align*}
+% This is therefore equal to twice the negative normal log likelihood under assumption \eqref{eq: FO approx}.
+
+% Minimisation of the objective function is done using different optimisation methods.
+
+% \section{yap}
+% Fiddler skrev i august 24', at NONMEM bruger "proprietary closed source optimization algorithm" til at optimere likelihood. link \url{https://github.com/nlmixr2/nlmixr2/discussions/257}, så...? Generelt har nlmixr flere optimeringsmuligheder.
+
+% The assumptions are
+% \begin{align*}
+%     \Ex{e_i \mid  \theta_i}&=0,\\
+%     \Var{e_i\mid \theta_i}&=R_i(u_i,\theta_i,\xi), \quad \xi=(\sigma,\psi^\top)^\top.
 % \end{align*}
 
-\subsection{First-Order Estimation}
-FO: No (small) IIV, assumes additive error model. No inner optimisation problem. FOCE: Additive error model. FOCE-i: Proportional (or combined) error model. Generally two methods: Laplacian approximation and linearisation. These two methods yield equivalent objective functions for FO and FOCE, however not for FOCE-i. NONMEM uses the Laplacian approximation. (WANG). What does nlmixr use? FOCE-i, innerOpt = c("n1qn1", "BFGS"), outerOpt = c("nlminb", "bobyqa", "lbfgsb3c", "L-BFGS-B", "mma", "lbfgsbLG", "slsqp",
-"Rvmmin").
-The first-order (FO) method models a linear approximation of \eqref{eq: likelihood for parameters} using a Taylor expansion around $\eta_i=0$. The method uses a Cholesky decomposition of $R_i$, 
-
-Since $R_i(u_i,\theta_i,\xi)$ is diagonal, its Cholesky decomposition is simply $R_i=R_i^{1/2}R_i^{1/2}$. Let $\epsilon_i \sim (0,I_{n_i})$ and write the residual error as $e_i=R_i^{1/2}\epsilon_i$. This rewriting is justified since $\Ex{e_i \mid \theta}=\Ex{R_i^{1/2}\epsilon_i}=0$ and $\Var{e_i \mid \theta_i}=\Var{R_i^{1/2}\epsilon_i \mid \theta_i }=R_i^{1/2}\Var{\epsilon_i}R_i^{1/2}=R_i$. The model \eqref{eq: NLME Stage 1} can then be written as 
-\begin{align*}
-    y_i &= g_i(\theta_i) + R_i^{1/2}(u_i,\theta_i,\xi)\epsilon_i \\
-    &= g_i(d(a_i,\beta,\eta_i)) + R_i^{1/2}(u_i,d(a_i,\beta,\eta_i),\xi)\epsilon_i, \quad \epsilon_i \sim N(0,I_{n_i}),
-\end{align*}
-where the dependence on the $\eta_i$'s are written explicitly.
-
-The idea is then to use a Taylor expansion around $\eta_i=0$. This yields the first order approximation of $y_i$,
-\begin{align}
-    y_i \approx g_i(d(a_i,\beta,0)) + R_i^{1/2}(u_i,d(a_i,\beta,0),\xi)\epsilon_i + (derivA + derivB)\eta_i. \label{eq: FO approx}
-\end{align}
-The last term is omitted, as misspecification of second order moments is not as crucial as for first order moments (kilde). Denote derivA $:= Z_i(\beta,0)$ and $e_i^{\ast}:= R_i^{1/2}(u_i,d(a_i,\beta,0),\xi)\epsilon_i$ to get the representation 
-\begin{align*}
-       y_i \approx g_i(d(a_i,\beta,0)) + Z_i(\beta,0)\eta_i + e_i^{\ast}. 
-\end{align*}
-The approximated marginal first and second moment of $y_i$ is then
-\begin{align*}
-    \Ex{y_i} &\approx g_i(d(a_i,\beta,0)),\\
-    \Var{y_i} &\approx \Var{Z_i(\beta,0)\eta_i} + \Var{e_i^{\ast}}\\
-    &= Z_i(\beta,0)\Var{\eta_i}Z_i^{\top}(\beta,0) + R_i^{1/2}(u_i,d(a_i,\beta,0),\xi)\Var{\epsilon_i}R_i^{1/2}(u_i,d(a_i,\beta,0),\xi)\\
-    &=  Z_i(\beta,0)\Omega Z_i^{\top}(\beta,0) + R_i^{1/2}(u_i,d(a_i,\beta,0),\xi)\\
-    &=:V_i(\beta,0,\xi,\Omega).
-\end{align*}
-Under the assumption of normality, i.e. $e_i \sim N(0,V_i(\beta,0,\xi,\Omega))$ and $\eta_i \sim N(0,\Omega)$, the marginal density of $y_i$ is
-\begin{align*}
-        p_{y}(y_i\mid x_i,\beta,\xi,D) &= \frac{1}{(2\pi)^{n_i/2}\mid V_i(\cdot)\mid ^{1/2}}\exp{\left(-\frac{1}{2}Q(\cdot)\right)},
-\end{align*}
-where $Q(\cdot)=\left[y_i-g_i(d(a_i,\beta,0))-Z_i(\beta,0)\eta_i\right]^\top V_i^{-1}(\cdot)\left[y_i-g_i(d(a_i,\beta,0))-Z_i(\beta,0)\eta_i\right]$. The likelihood is then given by
-\begin{align*}
-    L(\beta,\xi,\Omega \mid y_1,\dots,y_N)=\prod_{i=1}^N p_{y}(y_i\mid x_i,\beta,\xi,D),
-\end{align*}
-and thus the log likelihood is
-\begin{align*}
-    l(\beta,\xi,\Omega \mid y_1,\dots,y_N)=\sum_{i=1}^N p_{y}(y_i\mid x_i,\beta,\xi,D) \propto \sum_{i=1}^N-\frac{1}{2}\log|V_i(\cdot)|-\frac{1}{2}Q.
-\end{align*}
-Multiply this with $-2$ to get the objective function to be minimised,
-\begin{align*}
-L_{FO}=\sum_{i=1}^N\log|V_i(\cdot)|+Q(\cdot),
-\end{align*}
-This is therefore equal to twice the negative normal log likelihood under assumption \eqref{eq: FO approx}.
-
-Minimisation of the objective function is done using different optimisation methods.
-
-\section{yap}
-\begin{itemize} 
-    \item Taylor approx. (linearisation)
-    \item Derive moments of approximated yi
-    \item Assume normality => derive marginal distribution of y to derive the log likelihood
-    \item Derive the objective function
-    \item Optimisation - explain what there is and possible methods
-\end{itemize}
-Approksimation af likelihood - dernæst skal den optimeres vha. metode fra nlmixr. Ved FOCE og FOCE-i findes inner/outer optimisation problem, da vi både skal estimere eta'er, der bruges som conditional estimates for at optimere population parameters.
-
-Fiddler skrev i august 24', at NONMEM bruger "proprietary closed source optimization algorithm" til at optimere likelihood. link \url{https://github.com/nlmixr2/nlmixr2/discussions/257}, så...? Generelt har nlmixr flere optimeringsmuligheder.
+% The integral in \eqref{eq: marginal distribution of y_i} cannot be analytically expressed. Instead, the integration must be done by numeric approximation. The integral is intractable since the estimate of $\xi$ depends on the estimate of $\Omega$, i.e. estimation of $e_i$ depends on the estimation of $\eta_i$. Moreover, the non-linearity of $g(\cdot)$ further complicates the evaluation of the integral.
 
 
-
-The assumptions are
-\begin{align*}
-    \Ex{e_i \mid  \theta_i}&=0,\\
-    \Var{e_i\mid \theta_i}&=R_i(u_i,\theta_i,\xi), \quad \xi=(\sigma,\psi^\top)^\top.
-\end{align*}
-
-The integral in \eqref{eq: marginal distribution of y_i} cannot be analytically expressed. Instead, the integration must be done by numeric approximation. The integral is intractable since the estimate of $\xi$ depends on the estimate of $\Omega$, i.e. estimation of $e_i$ depends on the estimation of $\eta_i$. Moreover, the non-linearity of $g(\cdot)$ further complicates the evaluation of the integral.
+% => Påbegynd estimationsmetoder
 
 
-=> Påbegynd estimationsmetoder
+% Options in nlmixr
+% \begin{itemize}
+%     \item FO: first order approximation - algorithm which transforms the NLME model into a linear ME model through a first-order Taylor approximation around the vector $\eta =0$; the model is then estimated based on the linear approximaiton to the non-linear model.
+%     \item FOCE: first order conditional estimation (see Wang 2009) - first order taylor approximation around the posterior mode of $\eta$, thus it depends on a conditional estimate of $\eta$
+%     \item FOCE-I: first order conditional estimation with interaction - same as foce, but it also accounts for interaction between $\eta$ and $e$ (e.g. proportional random error model). This method not useful when residual variance is large or $n_i$'s are small, neither for homoscedastic error models.
+
+%     \item FO-I: first order with interaction
+
+%     \item SAEM: stochastic approximation expectation-maximization
+% \end{itemize}
+% Andre metoder er til population-only data og ikke mixed effects modeller.
 
 
-Options in nlmixr
-\begin{itemize}
-    \item FO: first order approximation - algorithm which transforms the NLME model into a linear ME model through a first-order Taylor approximation around the vector $\eta =0$; the model is then estimated based on the linear approximaiton to the non-linear model.
-    \item FOCE: first order conditional estimation (see Wang 2009) - first order taylor approximation around the posterior mode of $\eta$, thus it depends on a conditional estimate of $\eta$
-    \item FOCE-I: first order conditional estimation with interaction - same as foce, but it also accounts for interaction between $\eta$ and $e$ (e.g. proportional random error model). This method not useful when residual variance is large or $n_i$'s are small, neither for homoscedastic error models.
-
-    \item FO-I: first order with interaction
-
-    \item SAEM: stochastic approximation expectation-maximization
-\end{itemize}
-Andre metoder er til population-only data og ikke mixed effects modeller.
+% NONMEM 
+% \begin{itemize}
+%     \item First Order Conditional Estimation (FOCE)
+%     \item Laplace Conditional Estimation
+%     \item Iterative Two Stage (ITS) 
+%     \item Importance Sampling Expectation-Maximization (IMP)
+%     \item Stochastic Approximation Expectation-Maximization (SAEM)
+%     \item Markov-Chain Monte Carlo Bayesian Analysis (BAYES, NUTS) 
+% \end{itemize}
 
 
-NONMEM 
-\begin{itemize}
-    \item First Order Conditional Estimation (FOCE)
-    \item Laplace Conditional Estimation
-    \item Iterative Two Stage (ITS) 
-    \item Importance Sampling Expectation-Maximization (IMP)
-    \item Stochastic Approximation Expectation-Maximization (SAEM)
-    \item Markov-Chain Monte Carlo Bayesian Analysis (BAYES, NUTS) 
-\end{itemize}
-
-\subsection{First-order conditional estimation (FOCE)}
-\subsection{First-order conditional estimation with interaction (FOCEi)}
-This FOCEi likelihood has been compared to NONMEM’s objective function and gives the same values (based on the data in Wang 2007 (2007))
 \subsection{Stochastic Approximation Expectation-Maximization}
 The Expectation-Maximaization (EM) algorithm will be explained. The algorithm is useful for maximum likelihood estimation for parameters when latent variables are present. When estimating PK models with NLMEM the laten variables are the subject specific parameters. 
 
@@ -784,153 +759,20 @@ The conditional weighted residuals (CWRES) are computed as
 \begin{align*}
     \text{CWRES} = \frac{y_i - \Ex{y_i}_{FOCE}}{\sqrt{\Cov{y_i}_{FOCE}}}
 \end{align*}
+The FO estimation method assumes the RE is $0$, while the FOCE conditions on the RE. Thus, the RE is accounted for in the CWRES, while the RE is included in the WRES. 
 
+pred refers to the predicted values generated by the model at the population level. These values are computed based on the fixed effects of the model and do not account for individual-specific random effects. They represent the average response for a population based on the covariates included in the model.
 
+Ipred represents the predicted values for individual subjects in a study, incorporating both fixed effects and individual-specific random effects. Ipred values reflect the model's prediction for each subject, taking into account their unique characteristics and the estimated variability.
 
+dv stands for "dependent variable," which typically refers to the observed outcomes or measurement data that the model aims to predict or explain. In pharmacometric analysis, dv is often something like drug concentration measurements over time or other clinical endpoints relevant to the study.
 
+IDV denotes "independent variable" and refers to the variables that are used as predictors in the model. Often, maybe always, the IDV in the plots is considered to be time. IDV variables can help explain the variability in the dv and are essential for building a predictive model.
 
+The blue lines are made by $geom_smooth()$ which is 
 
+The $dv_preds_vs_idv(xpdb_ex_pk)$ function is plotted in Figure \ref{fig:dv_preds_vs_idv}. The function should be read as follows: DV, PRED, IPRED VS. IDV, therefore three plots are created. 
 
-
-
-
-\chapter{pure yap}
-\begin{itemize}
-    \item Relationship between explanatory- and response variables is not required to be linear.
-    \item Inclusion of random effects in non-linear framework results in the absence of a closed form expression for the likelihood function - this implies we have to use methods to approximate the likelihood function
-    \item Approximation methods
-    \item HOW TO BUILD POP-PK-MODEL: See Bonate p. 263 - modelbygningen opdeles i fem steps (har forkortet dem ned her):
-    \begin{enumerate}
-        \item Determine the structual PK model (ligesom vi gør i preliminary) and estimate the model without covariates
-        \item Examine the assumptions regarding the distribution of random effects
-        \item Select covariates for inclusion in the model (covariate screening)
-        \item Build the model using covariates (redundant if the covariates were tested directly in the NLME model)
-        \item Evaluate final parameter estimates - test assumptions to validate the model
-    \end{enumerate}
-    \item If the primary goal of this project is to make simulation studies to estimate PK parameters given a specific structural PK model in which the relationship with the covariates is known, our task is now to formalize how to build such a model. All that has to do with model verification is much less relevant since we know the true model.
-    \item AIM: Determine the structural PK model and use a given model for the covariates and then estimate the model with several estimation methods and then compare with the exact same models estimated using NONMEM.
-\end{itemize}
-We want to allow for individual variability for the PK parameters. An an example we might want to model the elimination rate as
-\begin{align*}
-    K_{e,i}=K_{e,pop}\left(\frac{\text{covariate}_i}{\text{ covariate}_{pop}}\right)^{\alpha}\exp({\eta_{K_{e,i}}}), 
-\end{align*}
-where $K_{e,i}$ is the elimination rate for subject $i$, $K_{e,pop}$ is the population mean for $K_{e}$, $\eta_{K_{e,i}} \sim N(0, \omega^2)$ is the subject variability, and $\alpha$ is a constant indicating the influence of the covariate.
-
-
-\section{Modelopbygning}
-\begin{align*}
-    y_i &= (y_{1,i},\dots,y_{1,n_i})^\top \in \R^{n_i}\\
-    Y&=(y_1,y_2,\dots,y_N)^\top= (y_{1,1},\dots,y_{1,n_1},y_{2,1},\dots,y_{2,n_2},\dots,y_{N,1},\dots,y_{N,n_N})^\top \in \R^{n_1+n_2+\cdots+n_N}\\
-    G(t,u,\theta)&=(g_1(\theta_1),g_2(\theta_2),\dots,g_N(\theta_N))^\top \in \R^{n_1+n_2+\cdots+n_N}\\
-    \epsilon &= (e_1,e_2,\dots,e_N)^\top=(e_{1,1},\dots,e_{1,n_1},e_{2,1},\dots,e_{2,n_2},\dots,e_{N,1},\dots,e_{N,n_N})^\top \in \R^{n_1+n_2+\cdots+n_N}\\
-    Y &= G(t,u,\theta) + \epsilon\\
-    \theta &= [(h(a_1,\beta,\eta_1),h(a_2,\beta, \eta_2), \dots,h(a_N,\beta,\eta_N)]^\top \in \R^{pN}\\
-    e_{i,j} &\sim (0,\sigma^2)\\
-    e_i &\sim (0,R_i), R_i \in \R^{n_i \times n_i}\\
-    \eta_i &\sim (0,\Omega), \Omega \in \R^{r \times r}\\
-    \eta &= (\eta_{1,1},\eta_{1,2},\dots,\eta_{1,N},\dots,\eta_{r,1},\dots,\eta_{r,N})=  (\eta_1,\dots,\eta_N)^\top \in \R^{rN}\\
-    \eta &\sim (0,\Sigma)\\
-    \Sigma &=
-\begin{bmatrix}
-    \Omega & O & \cdots & O \\
-    O & \Omega & \cdots & O \\
-    \vdots & \vdots & \ddots & \vdots \\
-    O & O & \cdots &\Omega
-\end{bmatrix}
- \in \R^{rN \times rN}\\
-     R &=
-\begin{bmatrix}
-    R_1 & O & \cdots & O \\
-    O & R_2 & \cdots & O \\
-    \vdots & \vdots & \ddots & \vdots \\
-    O & O & \cdots & R_N
-\end{bmatrix}
- \in \R^{(n_1+n_2+\dots+n_N)\times (n_1+n_2+\dots+n_N)}\\
- \Omega &= \begin{bmatrix}
-    \omega_{1,1} & \omega_{1,2} & \cdots & \omega_{1,r} \\
-    \omega_{2,1} & \omega_{2,2} & \cdots & \omega_{2,r} \\
-    \vdots & \vdots & \ddots & \vdots \\
-    \omega_{r,1} & \omega_{r,2} & \cdots & \omega_{r,r}
-\end{bmatrix}, \quad \omega_{k,m} = \Cov{\eta_{i,k},\eta_{i,m}}.
-\end{align*}
-
-% \section{Residual variance models}
-% %Bonat side 243
-% The variability that remains unexplained by a NLME-model is referred to as the residual variance. This residual variance is explicitly represented as the error term in the first stage of an NLME-model, represented in \eqref{eq: NLME Stage 1}, and can be modeled with a residual variance model. As the residual variance becomes larger or more heterogeneous, it becomes increasingly more important to include a residual variance model to the overall model. In \eqref{eq: NLME Stage 1}, the error term is added to the non-linear function, and therefore, the residual variance model used, is the additive residual variance model. This is the most commonly used model, but is not always valid. Incorporating a residual variance model that is not suitable to the data can lead to inaccurate results. For instance, consider modeling the drug concentration of a patient who received a single dose administered EV. If an additive residual variance model is used, where the error term, $e_{i,j}$, follows a normal distribution with mean $0$ and variance $\sigma^2$, the model can theoretically yield negative concentration values, for a large time, and if the error term is sufficiently large and negative, see Figure \ref{fig: Residual variance model add}. However, since negative concentrations are practically impossible, this model is inappropriate to use. Instead, in this case, a model that restricts the concentration values to non-negative values should be employed.
-
-% The first stage of the NLME-model \eqref{eq: NLME Stage 1} can be extended, such that it includes the structural form and the parameters associated with the residual variance model. This extension is
-% \begin{align} \label{eq: residual variance model}
-%     y_{i,j} &= g(t_{i,j}, u_i, \theta_i) + v(\Phi, t_{i,j}, u_i, \theta_i)e_{i,j},
-% \end{align}
-% where $v(\cdot)$ denotes the variance function and $\Phi$ denotes the parameters of the residual variance model. Given that $v(\cdot)$ is constant and $e_{i,j}$ is considered to be independent from $g(t_{i,j}, u_i, \theta_i)$, have mean zero, and variance $\sigma^2$, the variance for the extended model is
-% \begin{align*}
-%     \Var{y_{i,j}} = \sigma^2 [v(\Phi, t_{i,j}, u_i, \theta_i)]^2 .
-% \end{align*}
-% The most common residual variance models are seen in Table \ref{tab:error models}. Across all models, it is assumed that the residuals, $e_{i,j}$ has mean zero, constant variance $\sigma^2$, and are independent of the non-linear function $g(t_{i,j}, u_i, \theta_i)$.
-% \begin{table}[H]
-% \centering
-% \begin{tabular}{>{\raggedright\arraybackslash}p{0.4\textwidth}>{\raggedright\arraybackslash}p{0.5\textwidth}}
-% \toprule
-% \textbf{Residual Variance Model} & \textbf{Representation} \\
-% \midrule
-% Additive error & $y_{i,j} = g(t_{i,j}, u_i, \theta_i) + e_{i,j}$ \\
-% Proportional error & $y_{i,j} = g(t_{i,j}, u_i, \theta_i)(1+e_{i,j})$ \\
-% Combined additive and proportional error & $y_{i,j} = g(t_{i,j}, u_i, \theta_i) + \left( \sqrt{1-\phi_k + \phi_k g(t_{i,j}, u_i, \theta_i)^2}\right)e_{i,j}$, \quad $\phi_k \in [0, 1]$ \\
-% \bottomrule
-% \end{tabular}
-% \caption{Residual variance models and their respective representation.}
-% \label{tab:error models}
-% \end{table}
-% The residual variance models presented in Table \ref{tab:error models} exhibit different properties, with the first model, being the additive residual variance model. It is characterized by the error term being added to the non-linear function. As the variance of the error is constant, and the error term is independent of the non-linear function, $g(t_{i,j}, u_i, \theta_i)$, the variance of the model is constant over time,
-% \begin{align*}
-%     \Var{y_{i,j}} = \Var{g(t_{i,j}, u_i, \theta_i) + e_{i,j}} = \sigma^2.
-% \end{align*}
-% An example of simulated data that follows the additive residual variance model can be seen in Figure \ref{fig: Residual variance model add}.
-
-% The second model in Table \ref{tab:error models} is the proportional residual variance model. In this model the error term is multiplied with the non-linear function, resulting in the model
-% \begin{align*}
-%    y_{i,j}=g(t_{i,j}, u_i, \theta_i) + g(t_{i,j}, u_i, \theta_i)e_{i,j},
-% \end{align*}
-% where $g(t_{i,j}, u_i, \theta_i)$ is multiplied with the error, and therefore represents the residual variance function $v(\cdot)$ from \eqref{eq: residual variance model}. As the variance of the error term is constant but proportional with the non-linear function, the variance of the model is proportional with the non-linear function,
-% \begin{align*}
-%     \Var{y_{i,j}} = \Var{g(t_{i,j}, u_i, \theta_i) + g(t_{i,j}, u_i, \theta_i)e_{i,j}} = \sigma^2 \left[g(t_{i,j}, u_i, \theta_i) \right]^2.
-% \end{align*}
-% The proportional residual variance model can be seen in Figure \ref{fig: Residual variance model prop}.
-
-% The third model in Table \ref{tab:error models} is a combination of the additive and proportional error models, which means it exhibits properties from both models. As $\phi_k \in [0,1]$, it is possible to adjust the contribution of each model. Note that if $\phi_k=0$, the residual variance model simplifies to an additive model, whereas if $\phi_k=1$, it corresponds to a proportional model. The variance of the model is
-% \begin{align*}
-%     \Var{y_{i,j}} &= \Var{g(t_{i,j}, u_i, \theta_i) + \left( \sqrt{1-\phi_k + \phi_k g(t_{i,j}, u_i, \theta_i)^2}\right)e_{i,j}} \\
-%     &= \sigma^2 \left[1-\phi_k + \phi_k g(t_{i,j}, u_i, \theta_i)^2\right].
-% \end{align*}
-% The combined additive and proportional residual variance model can be seen in Figure \ref{fig: Residual variance model add prop}.
-
-% \begin{figure}[H]
-%     \centering
-%     \begin{minipage}{0.45\textwidth}
-%         \centering
-%         \includegraphics[width=\linewidth]{fig/img/Residual Variance Model/Concentration W. Oral Add.pdf}
-%         \caption{Additive error}
-%         \label{fig: Residual variance model add}
-%     \end{minipage}%
-%     \hfill
-%     \begin{minipage}{0.45\textwidth}
-%         \centering
-%         \includegraphics[width=\linewidth]{fig/img/Residual Variance Model/Concentration W. Oral Prop.pdf}
-%         \caption{Proportional error}
-%         \label{fig: Residual variance model prop}
-%     \end{minipage}
-%     \vfill
-
-%     \begin{minipage}{0.45\textwidth}
-%         \centering
-%         \includegraphics[width=\linewidth]{fig/img/Residual Variance Model/Concentration W. Oral Add Prop.pdf}
-%         \caption{Combined additive and proportional error}
-%         \label{fig: Residual variance model add prop}
-%     \end{minipage}
-%     \caption{Simulated concentrations from a single dose one-compartment model with EV administration, each with different residual variance structures.}
-%     \label{fig: Residual variance model}
-% \end{figure}
-% To determine which residual variance model is most suitable, likelihood ratio tests and goodness of fit plots of each model are evaluated. \\
 
 
 
