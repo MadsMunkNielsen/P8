@@ -103,6 +103,32 @@ kable_output <- kbl(Df,
 cat(kable_output, file = full_path)
 }
 
+DFSAVEtableSeven <- function(Df, Dfname, folder = "Data/Dataframes/") {
+    # Ensure the directory exists
+    if (!dir.exists(folder)) {
+        dir.create(folder, recursive = TRUE)
+    }
+    
+full_path <- paste0(folder, Dfname, ".tex")
+captionName <- gsub("_", " ", Dfname)
+captionName <- gsub("parFixed ", "", captionName)
+captionName <- gsub(" Init 1", "", captionName)
+captionName <- gsub("NoBSV", "No BSV -", captionName)
+kable_output <- kbl(Df, 
+                    booktabs = TRUE,
+                    caption = captionName,
+                    col.names = c("Parameter", "Est", "SE", "%RSE", "Back-transformed", "BSV", "Shrinkage"), 
+                    linesep = "",
+                    digits=1, 
+                    "latex") %>%
+                    kable_classic(full_width = FALSE) %>%
+                    kable_styling(font_size = 8) %>%
+                    row_spec(0, bold = TRUE) %>%
+                    row_spec(2:nrow(Df)-1, hline_after = TRUE) 
+
+cat(kable_output, file = full_path)
+}
+
 
 dataframesMSE <- list(
     list(df = MSE_All_BW, name = "MSE_All_BW"),
@@ -154,6 +180,16 @@ dataframesStat <- list(
     list(df = statSummary_ETA_V_DV, name = "statSummary_ETA_V_DV")
 )
 
+dataframestableSeven <- list(
+    list(df = parFixed_NoBSV_CP_10_Init_1, name = "parFixed_NoBSV_CP_10_Init_1"),
+    list(df = parFixed_NoBSV_CP_100_Init_1, name = "parFixed_NoBSV_CP_100_Init_1"),
+    list(df = parFixed_NoBSV_CP_25_Init_1, name = "parFixed_NoBSV_CP_25_Init_1"),
+    list(df = parFixed_NoBSV_CP_50_Init_1, name = "parFixed_NoBSV_CP_50_Init_1"),
+    list(df = parFixed_NoBSV_DV_10_Init_1, name = "parFixed_NoBSV_DV_10_Init_1"),
+    list(df = parFixed_NoBSV_DV_100_Init_1, name = "parFixed_NoBSV_DV_100_Init_1"),
+    list(df = parFixed_NoBSV_DV_25_Init_1, name = "parFixed_NoBSV_DV_25_Init_1"),
+    list(df = parFixed_NoBSV_DV_50_Init_1, name = "parFixed_NoBSV_DV_50_Init_1")
+)
 
 for (item in dataframesMSE) {
     DFSAVEmse(item$df, item$name)
@@ -175,8 +211,10 @@ for (item in dataframesStat) {
     DFSAVEstat(item$df, item$name)
 }
 
+for (item in dataframesStat) {
+    DFSAVEstat(item$df, item$name)
+}
 
-# Overvej at lave de her dataframes
-test <- results$ETA_ALL_DV_100_Init_1$parFixedDf
-omega <- results$ETA_ALL_DV_100_Init_1$omega
-
+for (item in dataframestableSeven) {
+    DFSAVEtableSeven(item$df, item$name)
+}

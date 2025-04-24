@@ -11,7 +11,9 @@ SaveXpose <- function(filename, plotname, folder = "Data/XposePlots/"){
 }
 
 
-myfit <- results$ETA_ALL_CP_100_Init_1
+plot(results_None$NoBSV_CP_10_Init_1)
+myfit <- results_BW_Eta_All$BW_ETA_ALL_DV_100_Init_1
+
 xpdb <- xpose_data_nlmixr(myfit)
 
 # Residuals and Predictions
@@ -23,9 +25,9 @@ absval_res_vs_idv(xpdb, res="CWRES") # Absolute residuals vs dependent variable
 absval_res_vs_pred(xpdb, res="CWRES") # Absolute residuals vs model prediction
 
 # Grouped Plots
-dv_vs_idv(xpdb, group="ID")        # Dependent variable vs ID
-ipred_vs_idv(xpdb, group="ID")     # Individual predictions vs ID
-pred_vs_idv(xpdb, group="ID")      # Model predictions vs ID
+dv_vs_idv(xpdb, group="ID")        # Dependent variable vs Independent variable
+ipred_vs_idv(xpdb, group="ID")     # Individual predictions vs Independent variable
+pred_vs_idv(xpdb, group="ID")      # Model predictions vs Independent variable
 dv_preds_vs_idv(xpdb)              # Dependent variable vs predictions
 
 # Distribution and QQ Plots
