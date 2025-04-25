@@ -11,7 +11,7 @@ SaveXpose <- function(filename, plotname, folder = "Data/XposePlots/"){
 }
 
 
-myfit <- results_Eta_V$ETA_V_DV_100_Init_1
+myfit <- results_None$NoBSV_DV_100_Init_1
 
 xpdb <- xpose_data_nlmixr(myfit)
 
