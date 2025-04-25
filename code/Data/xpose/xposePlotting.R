@@ -1,16 +1,31 @@
-library(nlmixr2)
 library(xpose)
 library(xpose.nlmixr2)
 library(ggplot2)
 
-source("Data/xpose/SaveXpose.R")
+SaveXpose <- function(filename, plotname, folder = "Data/XposePlots/"){
+    full_path <- paste0(folder, filename)
+    ggsave(full_path, plot = plotname, width = 13, height = 6, dpi = "retina")
+}
 
+included_models <- c()
+for (names in names(results_))
 
-results_vector <- c(results_Eta_V, results_Eta_CL_Q, results_Eta_All, results_BW_Eta_V, results_BW_Eta_CL_Q, results_BW_Eta_All)
+xpose_data <- list()
 
+for (i in Amount_Of_Subjects) {
+  for (j in 1:length(initials_list)) {
+    # Create key for storing results_BW_Eta_All
+    key_cp <- paste0("BW_ETA_ALL_CP_", i, "_Init_", j)
+    key_dv <- paste0("BW_ETA_ALL_DV_", i, "_Init_", j)
 
-for (i in seq_along(results_vector)) {
+    # Fit for CP
+    results_BW_Eta_All[[key_cp]] <- nlmixr(
+      do.call(two.cmt.depot.All.BW, initials_list[[j]]),
+      subsetTrue[subsetTrue$ID >= 1 & subsetTrue$ID <= i, ],
+      est = estMethod
+    )
 
+<<<<<<< HEAD
     xpdb <- xpose_data_nlmixr(results_vector[[i]])
 
 dv_vs_pred_plot <- dv_vs_pred(xpdb) +
@@ -162,3 +177,18 @@ SaveXpose_VPC(paste0(names(results_vector[i]), ".pdf"), vpcPlot)
 
     xpdb <- c()
 }
+=======
+    # Fit for DV
+    results_BW_Eta_All[[key_dv]] <- nlmixr(
+      do.call(two.cmt.depot.All.BW, initials_list[[j]]),
+      subsetNoise[subsetNoise$ID >= 1 & subsetNoise$ID <= i, ],
+      est = estMethod
+    )
+  }
+}
+
+
+myfit <- results_None$NoBSV_DV_100_Init_1
+
+xpdb <- xpose_data_nlmixr(myfit)
+>>>>>>> 916c6571d3a727ce86bb57a4f3c9caba38ccbdb6
