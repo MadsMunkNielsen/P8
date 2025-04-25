@@ -113,7 +113,7 @@ A model is fitted with $\theta_i = (k_{a,\mu}, CL_{\mu}, Q_{\mu},V_{c,\mu}\cdot 
 \input{code/Data/Dataframes/parFixed_ETA_V_DV_100_Init_1}
 
 \section{Model with ETAs on all}
-A model is fitted with $\theta_i = (k_{a,\mu}, CL_{\mu}\cdot \ep{\eta_{CL,i}}, Q_{\mu}\cdot \ep{\eta_{CL,i}},V_{c,\mu}\cdot \ep{\eta_{V,i}},V_{p,\mu}\cdot \ep{\eta_{V,i}})^\top$.
+A model is fitted with $$\theta_i = (k_{a,\mu}, CL_{\mu}\cdot \ep{\eta_{CL,i}}, Q_{\mu}\cdot \ep{\eta_{CL,i}},V_{c,\mu}\cdot \ep{\eta_{V,i}},V_{p,\mu}\cdot \ep{\eta_{V,i}})^\top.$$
 
 \subsection{10 sample profile}
 \input{code/Data/Dataframes/parFixed_ETA_All_DV_10_Init_1}
@@ -125,7 +125,7 @@ A model is fitted with $\theta_i = (k_{a,\mu}, CL_{\mu}\cdot \ep{\eta_{CL,i}}, Q
 \input{code/Data/Dataframes/parFixed_ETA_All_DV_100_Init_1}
 
 \section{Model with BW as covariate and ETAs on CL and Q}
-A model is fitted with $$\theta_i = (k_{a,\mu}, CL_{\mu}\cdot \left(\frac{BW_i}{85}\right)^\alpha \cdot \ep{\eta_{CL,i}}, Q_{\mu}\cdot \left(\frac{BW_i}{85}\right)^\alpha \cdot\ep{\eta_{CL,i}},V_{c,\mu},V_{p,\mu})^\top$$.
+A model is fitted with $$\theta_i = (k_{a,\mu}, CL_{\mu}\cdot \left(\frac{BW_i}{85}\right)^\alpha \cdot \ep{\eta_{CL,i}}, Q_{\mu}\cdot \left(\frac{BW_i}{85}\right)^\alpha \cdot\ep{\eta_{CL,i}},V_{c,\mu},V_{p,\mu})^\top.$$
 \subsection{10 sample profile}
 \input{code/Data/Dataframes/BW.parFixed_BW_ETA_CLQ_DV_10_Init_1}
 \subsection{25 sample profile}
@@ -136,6 +136,7 @@ A model is fitted with $$\theta_i = (k_{a,\mu}, CL_{\mu}\cdot \left(\frac{BW_i}{
 \input{code/Data/Dataframes/BW.parFixed_BW_ETA_CLQ_DV_100_Init_1}
 
 \section{Model with BW as covariate and ETAs on V2 and V3}
+A model is fitted with $$\theta_i = (k_{a,\mu}, CL_{\mu}, Q_{\mu},V_{c,\mu}\cdot\left(\frac{BW_i}{85}\right)^\alpha \cdot \ep{\eta_{V,i}},V_{p,\mu}\cdot\left(\frac{BW_i}{85}\right)^\alpha \cdot \ep{\eta_{V,i}})^\top.$$
 \subsection{10 sample profile}
 \input{code/Data/Dataframes/BW.parFixed_BW_ETA_V_DV_10_Init_1}
 \subsection{25 sample profile}
@@ -146,6 +147,19 @@ A model is fitted with $$\theta_i = (k_{a,\mu}, CL_{\mu}\cdot \left(\frac{BW_i}{
 \input{code/Data/Dataframes/BW.parFixed_BW_ETA_V_DV_100_Init_1}
 
 \section{Model with BW as covariate and ETAs on all}
+A model is fitted with $$\theta_i = (k_{a,\mu}, CL_{\mu}\cdot \left(\frac{BW_i}{85}\right)^\alpha \cdot \ep{\eta_{CL,i}}, Q_{\mu}\cdot \left(\frac{BW_i}{85}\right)^\alpha \cdot \ep{\eta_{CL,i}},V_{c,\mu}\cdot\left(\frac{BW_i}{85}\right)^\beta \cdot \ep{\eta_{V,i}},V_{p,\mu}\cdot\left(\frac{BW_i}{85}\right)^\beta \cdot \ep{\eta_{V,i}})^\top.$$
+\begin{align*}
+    \[
+\theta_i = 
+\begin{pmatrix}
+k_{a,\mu} \\
+CL_{\mu} \cdot \left(\frac{BW_i}{85}\right)^\alpha \cdot \ep{\eta_{CL,i}} \\
+Q_{\mu} \cdot \left(\frac{BW_i}{85}\right)^\alpha \cdot \ep{\eta_{CL,i}} \\
+V_{c,\mu} \cdot \left(\frac{BW_i}{85}\right)^\beta \cdot \ep{\eta_{V,i}} \\
+V_{p,\mu} \cdot \left(\frac{BW_i}{85}\right)^\beta \cdot \ep{\eta_{V,i}} 
+\end{pmatrix}.
+\]
+\end{align*}
 \subsection{10 sample profile}
 \input{code/Data/Dataframes/BW.parFixed_BW_ETA_All_DV_10_Init_1}
 \subsection{25 sample profile}
