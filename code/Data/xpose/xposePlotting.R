@@ -13,7 +13,7 @@ for (i in names(results_vector)) {
 
     xpdb <- xpose_data_nlmixr(results_vector[[i]])
 
-dv_vs_pred_plot <- dv_vs_pred(xpdb) +
+dv_vs_pred_plot <- dv_vs_pred(xpdb, line_alpha = 0, point_color = "#001965", smooth_color = "#3B97DE") +
     labs(title = "", 
         subtitle = "", 
         caption = "") +
@@ -21,7 +21,7 @@ dv_vs_pred_plot <- dv_vs_pred(xpdb) +
 SaveXpose_DV_PRED(paste0(names(results_vector[i]), ".pdf"), dv_vs_pred_plot)
 
 
-dv_vs_ipred_plot <- dv_vs_ipred(xpdb) +
+dv_vs_ipred_plot <- dv_vs_ipred(xpdb, line_alpha = 0, point_color = "#001965", smooth_color = "#3B97DE") +
   labs(title = "", 
        subtitle = "", 
        caption = "") +
@@ -29,15 +29,15 @@ dv_vs_ipred_plot <- dv_vs_ipred(xpdb) +
 SaveXpose_DV_VS_IPRED(paste0(names(results_vector[i]), ".pdf"), dv_vs_ipred_plot)
 
 
-res_vs_idv_plot <- res_vs_idv(xpdb, res="CWRES") +
+res_vs_idv_plot <- res_vs_idv(xpdb, res="CWRES", line_alpha = 0, point_color = "#001965", smooth_color = "#3B97DE") +
   labs(title = "", 
        subtitle = "", 
        caption = "") +
   theme_minimal()
-SaveXpose_DV_VS_IDV(paste0(names(results_vector[i]), ".pdf"), res_vs_idv_plot)
+SaveXpose_RES_VS_IDV(paste0(names(results_vector[i]), ".pdf"), res_vs_idv_plot)
 
 
-res_vs_pred_plot <- res_vs_pred(xpdb, res="CWRES") +
+res_vs_pred_plot <- res_vs_pred(xpdb, res="CWRES", line_alpha = 0, point_color = "#001965", smooth_color = "#3B97DE") +
   labs(title = "", 
        subtitle = "", 
        caption = "") +
@@ -45,7 +45,7 @@ res_vs_pred_plot <- res_vs_pred(xpdb, res="CWRES") +
 SaveXpose_RES_VS_PRED(paste0(names(results_vector[i]), ".pdf"), res_vs_pred_plot)
 
 
-absval_res_vs_idv_plot <- absval_res_vs_idv(xpdb, res="CWRES") +
+absval_res_vs_idv_plot <- absval_res_vs_idv(xpdb, res="CWRES", line_alpha = 0, point_color = "#001965", smooth_color = "#3B97DE") +
   labs(title = "", 
        subtitle = "", 
        caption = "") +
@@ -53,7 +53,7 @@ absval_res_vs_idv_plot <- absval_res_vs_idv(xpdb, res="CWRES") +
 SaveXpose_ABSVAL_RES_VS_IDV(paste0(names(results_vector[i]), ".pdf"), absval_res_vs_idv_plot)
 
 
-absval_res_vs_pred_plot <- absval_res_vs_pred(xpdb, res="CWRES") +
+absval_res_vs_pred_plot <- absval_res_vs_pred(xpdb, res="CWRES", line_alpha = 0, point_color = "#001965", smooth_color = "#3B97DE") +
   labs(title = "", 
        subtitle = "", 
        caption = "") +
@@ -61,7 +61,7 @@ absval_res_vs_pred_plot <- absval_res_vs_pred(xpdb, res="CWRES") +
 SaveXpose_ABSVAL_RES_VS_PRED(paste0(names(results_vector[i]), ".pdf"), absval_res_vs_pred_plot)
 
 
-dv_vs_idv_plot <- dv_vs_idv(xpdb, group="ID") +
+dv_vs_idv_plot <- dv_vs_idv(xpdb, group="ID", line_alpha = 0, point_color = "#001965", smooth_color = "#3B97DE") +
   labs(title = "", 
        subtitle = "", 
        caption = "") +
@@ -69,7 +69,7 @@ dv_vs_idv_plot <- dv_vs_idv(xpdb, group="ID") +
 SaveXpose_DV_VS_IDV(paste0(names(results_vector[i]), ".pdf"), dv_vs_idv_plot)
 
 
-ipred_vs_idv_plot <- ipred_vs_idv(xpdb, group="ID") +
+ipred_vs_idv_plot <- ipred_vs_idv(xpdb, group="ID", line_alpha = 0.5, line_color = "#001965", point_color = "#001965", smooth_color = "#3B97DE") +
   labs(title = "", 
        subtitle = "", 
        caption = "") +
@@ -77,7 +77,7 @@ ipred_vs_idv_plot <- ipred_vs_idv(xpdb, group="ID") +
 SaveXpose_IPRED_VS_IDV(paste0(names(results_vector[i]), ".pdf"), ipred_vs_idv_plot)
 
 
-pred_vs_idv_plot <- pred_vs_idv(xpdb, group="ID") +
+pred_vs_idv_plot <- pred_vs_idv(xpdb, group="ID", line_alpha = 0.5, line_color = "#001965", point_color = "#001965", smooth_color = "#3B97DE") +
   labs(title = "", 
        subtitle = "", 
        caption = "") +
@@ -85,7 +85,7 @@ pred_vs_idv_plot <- pred_vs_idv(xpdb, group="ID") +
 SaveXpose_PRED_VS_IDV(paste0(names(results_vector[i]), ".pdf"), pred_vs_idv_plot)
 
 
-dv_preds_vs_idv_plot <- dv_preds_vs_idv(xpdb) +
+dv_preds_vs_idv_plot <- dv_preds_vs_idv(xpdb, line_alpha = 0.5, line_color = "#001965", point_color = "#001965", smooth_color = "#3B97DE") +
   labs(title = "", 
        subtitle = "", 
        caption = "") +
@@ -132,7 +132,7 @@ SaveXpose_RES_DIST(paste0(names(results_vector[i]), ".pdf"), res_distrib_plot)
 #   theme_minimal()
 # SaveXpose_PRM_QQ(paste0(names(results_vector[i]), ".pdf"), prm_qq_plot)
 
-eta_qq_plot <- eta_qq(xpdb) +
+eta_qq_plot <- eta_qq(xpdb, line_alpha = 0, point_color = "#001965", smooth_color = "#3B97DE") +
   labs(title = "", 
        subtitle = "", 
        caption = "") +
@@ -148,7 +148,7 @@ SaveXpose_ETA_QQ(paste0(names(results_vector[i]), ".pdf"), eta_qq_plot)
 # SaveXpose_COV_QQ(paste0(names(results_vector[i]), ".pdf"), cov_qq_plot)
 
 
-res_qq_plot <- res_qq(xpdb, res="CWRES") +
+res_qq_plot <- res_qq(xpdb, res="CWRES", line_alpha = 0, point_color = "#001965", smooth_color = "#3B97DE") +
   labs(title = "", 
        subtitle = "", 
        caption = "") +
