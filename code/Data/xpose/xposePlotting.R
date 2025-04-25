@@ -162,28 +162,3 @@ SaveXpose_VPC(paste0(names(results_vector[i]), ".pdf"), vpcPlot)
 
     xpdb <- c()
 }
-
-
-
-
-xpdb <- xpose_data_nlmixr(results_vector[[1]])
-
-vpcPlot <- vpcPlot(results_vector[[i]], n=1000) +
-            theme_minimal()
-SaveXpose_VPC(paste0(names(results_vector[i]), ".pdf"), vpcPlot)
-vpcPlot
-
-prm_qq_plot <- prm_qq(xpdb) +
-  labs(title = "", 
-       subtitle = "", 
-       caption = "") +
-  theme_minimal()
-SaveXpose_PRM_QQ(paste0(names(results_vector[i]), ".pdf"), prm_qq_plot)
-
-
-cov_distrib_plot <- cov_distrib(xpdb) +
-  labs(title = "", 
-       subtitle = "", 
-       caption = "") +
-  theme_minimal()
-SaveXpose_COV_DIST(paste0(names(results_vector[i]), ".pdf"), cov_distrib_plot)
