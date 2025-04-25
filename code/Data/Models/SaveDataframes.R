@@ -235,6 +235,7 @@ dataframesMSE <- list(
     list(df = MSE_V_BW, name = "MSE_V_BW"),
     list(df = MSE_All, name = "MSE_All"),
     list(df = MSE_None, name = "MSE_None"),
+    list(df = MSE_None_NLS, name = "MSE_None_NLS"),
     list(df = MSE_CL, name = "MSE_CL"),
     list(df = MSE_V, name = "MSE_V")
 )
@@ -246,6 +247,8 @@ dataframesCOEF <- list(
     list(df = coefSummary_ETA_V_DV, name = "coefSummary_ETA_V_DV"),
     list(df = coefSummary_NoBSV_CP, name = "coefSummary_NoBSV_CP"),
     list(df = coefSummary_NoBSV_DV, name = "coefSummary_NoBSV_DV"),
+    list(df = coefSummary_NoBSV_CP_NLS, name = "coefSummary_NoBSV_CP_NLS"),
+    list(df = coefSummary_NoBSV_DV_NLS, name = "coefSummary_NoBSV_DV_NLS"),
     list(df = coefSummary_ETA_ALL_CP, name = "coefSummary_ETA_ALL_CP"),
     list(df = coefSummary_ETA_ALL_DV, name = "coefSummary_ETA_ALL_DV")
 )
@@ -273,6 +276,8 @@ dataframesStat <- list(
     list(df = statSummary_ETA_ALL_DV, name = "statSummary_ETA_ALL_DV"),
     list(df = statSummary_NoBSV_CP, name = "statSummary_NoBSV_CP"),
     list(df = statSummary_NoBSV_DV, name = "statSummary_NoBSV_DV"),
+    list(df = statSummary_NoBSV_CP_NLS, name = "statSummary_NoBSV_CP_NLS"),
+    list(df = statSummary_NoBSV_DV_NLS, name = "statSummary_NoBSV_DV_NLS"),
     list(df = statSummary_ETA_CLQ_CP, name = "statSummary_ETA_CLQ_CP"),
     list(df = statSummary_ETA_CLQ_DV, name = "statSummary_ETA_CLQ_DV"),
     list(df = statSummary_ETA_V_CP, name = "statSummary_ETA_V_CP"),
@@ -287,7 +292,15 @@ dataframestableNoEta <- list(
     list(df = parFixed_NoBSV_DV_10_Init_1, name = "parFixed_NoBSV_DV_10_Init_1"),
     list(df = parFixed_NoBSV_DV_100_Init_1, name = "parFixed_NoBSV_DV_100_Init_1"),
     list(df = parFixed_NoBSV_DV_25_Init_1, name = "parFixed_NoBSV_DV_25_Init_1"),
-    list(df = parFixed_NoBSV_DV_50_Init_1, name = "parFixed_NoBSV_DV_50_Init_1")
+    list(df = parFixed_NoBSV_DV_50_Init_1, name = "parFixed_NoBSV_DV_50_Init_1"),
+    list(df = parFixed_NLS_NoBSV_CP_10_Init_1, name = "parFixed_NLS_NoBSV_CP_10_Init_1"),
+    list(df = parFixed_NLS_NoBSV_CP_100_Init_1, name = "parFixed_NLS_NoBSV_CP_100_Init_1"),
+    list(df = parFixed_NLS_NoBSV_CP_25_Init_1, name = "parFixed_NLS_NoBSV_CP_25_Init_1"),
+    list(df = parFixed_NLS_NoBSV_CP_50_Init_1, name = "parFixed_NLS_NoBSV_CP_50_Init_1"),
+    list(df = parFixed_NLS_NoBSV_DV_10_Init_1, name = "parFixed_NLS_NoBSV_DV_10_Init_1"),
+    list(df = parFixed_NLS_NoBSV_DV_100_Init_1, name = "parFixed_NLS_NoBSV_DV_100_Init_1"),
+    list(df = parFixed_NLS_NoBSV_DV_25_Init_1, name = "parFixed_NLS_NoBSV_DV_25_Init_1"),
+    list(df = parFixed_NLS_NoBSV_DV_50_Init_1, name = "parFixed_NLS_NoBSV_DV_50_Init_1")
 )
 
 dataframestableEta4 <- list(
