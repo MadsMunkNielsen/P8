@@ -18,7 +18,7 @@ xpdb <- xpose_data_nlmixr(myfit)
 # Residuals and Predictions
 dv_vs_pred(xpdb)                   # Dependent variable vs model prediction
 dv_vs_ipred(xpdb)                  # Dependent variable vs individual predictions
-res_vs_idv(xpdb, res="CWRES")      # Residuals vs dependent variable
+res_vs_idv(xpdb, res="CWRES")      # Residuals vs independent variable
 res_vs_pred(xpdb, res="CWRES")     # Residuals vs model prediction
 absval_res_vs_idv(xpdb, res="CWRES") # Absolute residuals vs dependent variable
 absval_res_vs_pred(xpdb, res="CWRES") # Absolute residuals vs model prediction
@@ -175,9 +175,4 @@ SaveXpose("res_qq.pdf", res_qq_plot)
 
 vpcPlot <- vpcPlot(myfit, n=1000) +
             theme_minimal()
-vpcPlot
-
-
-plot(results_Eta_V$ETA_V_DV_100_Init_1)
-plot(results_None$NoBSV_DV_100_Init_1)
 SaveXpose("vpcPlot.pdf", vpcPlot)
