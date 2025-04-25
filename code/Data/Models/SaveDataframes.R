@@ -339,7 +339,7 @@ dataframestableEtaBW6 <- list(
     list(df = BW.parFixed_BW_ETA_CLQ_DV_10_Init_1, name = "BW.parFixed_BW_ETA_CLQ_DV_10_Init_1"),
     list(df = BW.parFixed_BW_ETA_CLQ_DV_100_Init_1, name = "BW.parFixed_BW_ETA_CLQ_DV_100_Init_1"),
     list(df = BW.parFixed_BW_ETA_CLQ_DV_25_Init_1, name = "BW.parFixed_BW_ETA_CLQ_DV_25_Init_1"),
-    list(df = BW.parFixed_BW_ETA_CLQ_CP_50_Init_1, name = "BW.parFixed_BW_ETA_CLQ_CP_50_Init_1"),
+    list(df = BW.parFixed_BW_ETA_CLQ_DV_50_Init_1, name = "BW.parFixed_BW_ETA_CLQ_DV_50_Init_1"),
     list(df = BW.parFixed_BW_ETA_V_CP_10_Init_1, name = "BW.parFixed_BW_ETA_V_CP_10_Init_1"),
     list(df = BW.parFixed_BW_ETA_V_CP_100_Init_1, name = "BW.parFixed_BW_ETA_V_CP_100_Init_1"),
     list(df = BW.parFixed_BW_ETA_V_CP_25_Init_1, name = "BW.parFixed_BW_ETA_V_CP_25_Init_1"),
