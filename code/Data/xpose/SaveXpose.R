@@ -38,6 +38,11 @@ SaveXpose_PRED_VS_IDV <- function(filename, plotname, folder = "Data/XposePlots/
     ggsave(full_path, plot = plotname, width = 13, height = 6, dpi = "retina")
 }
 
+SaveXpose_DV_PRED <- function(filename, plotname, folder = "Data/XposePlots/DV_Pred/") {
+    full_path <- paste0(folder, filename)
+    ggsave(full_path, plot = plotname, width = 13, height = 6, dpi = "retina")
+}
+
 SaveXpose_DV_PRED_VS_IDV <- function(filename, plotname, folder = "Data/XposePlots/DV_Pred_Idv/") {
     full_path <- paste0(folder, filename)
     ggsave(full_path, plot = plotname, width = 13, height = 6, dpi = "retina")
