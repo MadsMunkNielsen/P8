@@ -17,9 +17,9 @@ Stage 1, represented by \eqref{eq: NLME Stage 1}, characterises the within-subje
 \begin{exmp}{Stage 1: Within-Subject Variation}
 Consider a one-compartment model with EV administration of a single dose. The amount of drug at time $t$ is given by \eqref{eq: sol to first order kinetic of amount in one com without abs}. Assuming $F=1$, the concentration for subject $i$ at time $t_{i,j}$ is given by 
 \begin{align}
-        C_{central,i}(t_{i,j}) &= \frac{K_{a,i} D_i}{V_{d,i}(K_{a,i} - Cl_i/V_{d,i})} \left( \exp(-Cl_i/V_{d,i} * t_{i,j}) - \exp(-K_{a,i} * t_{i,j}) \right).\label{eq: conc. one-comp with abs, F=1}
+        C_{c,i}(t_{i,j}) &= \frac{k_{a,i} D_i}{V_{i}(k_{a,i} - CL_i/V_{i})} \left( \exp(-CL_i/V_{i} * t_{i,j}) - \exp(-k_{a,i} * t_{i,j}) \right).\label{eq: conc. one-comp with abs, F=1}
 \end{align}
-The function \eqref{eq: conc. one-comp with abs, F=1} is an example of  $g(t_{i,j}, u_i, \theta_i)$ specified in \eqref{eq: NLME Stage 1} with $u_i=D_i$ and $\theta_i=(K_{a,i}, V_{d,i}, Cl_i)^\top$ \citep[pp. 388-389]{Davidian2003}. 
+The function \eqref{eq: conc. one-comp with abs, F=1} is an example of  $g(t_{i,j}, u_i, \theta_i)$ specified in \eqref{eq: NLME Stage 1} with $u_i=D_i$ and $\theta_i=(k_{a,i}, V_{i}, Cl_i)^\top$ \citep[pp. 388-389]{Davidian2003}. 
 \label{ex: Stage 1 NLME}
 \end{exmp}
 
@@ -75,8 +75,8 @@ which results in $\Omega$ having non-zero off-diagonals.
 \begin{exmp}{Stage 2: Between-Subject Variation}
 Consider the one-compartment model from Example \ref{ex: Stage 1 NLME}. If each subject has covariates $a_i=(w_i,\text{sex}_i)^\top$, where $w_i$ is the weight (kg) of subject $i$, and $\text{sex}_i=1$ if subject $i$ is male, and  $0$ otherwise, then an example of \eqref{eq: NLME Stage 2}, with $\eta_i=(\eta_{i,1},\eta_{i,2},\eta_{i,3})^\top$ is \label{ex: Stage 2 NLME}
 \begin{align*}
-    K_{a,i}&=\exp(\beta_1+\eta_{i,1}),\\
-    V_{d,i}&=\exp(\beta_2+\beta_3w_i+\eta_{i,2}),\\
+    k_{a,i}&=\exp(\beta_1+\eta_{i,1}),\\
+    V_{i}&=\exp(\beta_2+\beta_3w_i+\eta_{i,2}),\\
     Cl_i &= \exp(\beta_4+\beta_5w_i+\beta_6\text{sex}_i+\beta_7w_i\text{sex}_i+\eta_{i,3}).
 \end{align*}
 \end{exmp}
