@@ -103,7 +103,7 @@ kable_output <- kbl(Df,
 cat(kable_output, file = full_path)
 }
 
-DFSAVEtableSeven <- function(Df, Dfname, folder = "Data/Dataframes/") {
+DFSAVEtableNoEta <- function(Df, Dfname, folder = "Data/Dataframes/") {
     # Ensure the directory exists
     if (!dir.exists(folder)) {
         dir.create(folder, recursive = TRUE)
@@ -129,6 +129,105 @@ kable_output <- kbl(Df,
 cat(kable_output, file = full_path)
 }
 
+DFSAVEtableWEta4 <- function(Df, Dfname, folder = "Data/Dataframes/") {
+    # Ensure the directory exists
+    if (!dir.exists(folder)) {
+        dir.create(folder, recursive = TRUE)
+    }
+    
+full_path <- paste0(folder, Dfname, ".tex")
+captionName <- gsub("_", " ", Dfname)
+captionName <- gsub("parFixed ", "", captionName)
+captionName <- gsub(" Init 1", "", captionName)
+kable_output <- kbl(Df, 
+                    booktabs = TRUE,
+                    caption = captionName,
+                    col.names = c("Parameter", "Est", "Back-transformed", "BSV", "Shrinkage"), 
+                    linesep = "",
+                    digits=1, 
+                    "latex") %>%
+                    kable_classic(full_width = FALSE) %>%
+                    kable_styling(font_size = 8) %>%
+                    row_spec(0, bold = TRUE) %>%
+                    row_spec(2:nrow(Df)-1, hline_after = TRUE) 
+
+cat(kable_output, file = full_path)
+}
+
+DFSAVEtableWEta6 <- function(Df, Dfname, folder = "Data/Dataframes/") {
+    # Ensure the directory exists
+    if (!dir.exists(folder)) {
+        dir.create(folder, recursive = TRUE)
+    }
+    
+full_path <- paste0(folder, Dfname, ".tex")
+captionName <- gsub("_", " ", Dfname)
+captionName <- gsub("parFixed ", "", captionName)
+captionName <- gsub(" Init 1", "", captionName)
+kable_output <- kbl(Df, 
+                    booktabs = TRUE,
+                    caption = captionName,
+                    col.names = c("Parameter", "Est", "SE", "%RSE", "Back-transformed", "BSV", "Shrinkage"), 
+                    linesep = "",
+                    digits=1, 
+                    "latex") %>%
+                    kable_classic(full_width = FALSE) %>%
+                    kable_styling(font_size = 8) %>%
+                    row_spec(0, bold = TRUE) %>%
+                    row_spec(2:nrow(Df)-1, hline_after = TRUE) 
+
+cat(kable_output, file = full_path)
+}
+
+DFSAVEtableWEtaBW4 <- function(Df, Dfname, folder = "Data/Dataframes/") {
+    # Ensure the directory exists
+    if (!dir.exists(folder)) {
+        dir.create(folder, recursive = TRUE)
+    }
+    
+full_path <- paste0(folder, Dfname, ".tex")
+captionName <- gsub("_", " ", Dfname)
+captionName <- gsub("BW.parFixed ", "", captionName)
+captionName <- gsub(" Init 1", "", captionName)
+kable_output <- kbl(Df, 
+                    booktabs = TRUE,
+                    caption = captionName,
+                    col.names = c("Parameter", "Est", "Back-transformed", "BSV", "Shrinkage"), 
+                    linesep = "",
+                    digits=1, 
+                    "latex") %>%
+                    kable_classic(full_width = FALSE) %>%
+                    kable_styling(font_size = 8) %>%
+                    row_spec(0, bold = TRUE) %>%
+                    row_spec(2:nrow(Df)-1, hline_after = TRUE) 
+
+cat(kable_output, file = full_path)
+}
+
+DFSAVEtableWEtaBW6 <- function(Df, Dfname, folder = "Data/Dataframes/") {
+    # Ensure the directory exists
+    if (!dir.exists(folder)) {
+        dir.create(folder, recursive = TRUE)
+    }
+    
+full_path <- paste0(folder, Dfname, ".tex")
+captionName <- gsub("_", " ", Dfname)
+captionName <- gsub("BW.parFixed ", "", captionName)
+captionName <- gsub(" Init 1", "", captionName)
+kable_output <- kbl(Df, 
+                    booktabs = TRUE,
+                    caption = captionName,
+                    col.names = c("Parameter", "Est", "SE", "%RSE", "Back-transformed", "BSV", "Shrinkage"), 
+                    linesep = "",
+                    digits=1, 
+                    "latex") %>%
+                    kable_classic(full_width = FALSE) %>%
+                    kable_styling(font_size = 8) %>%
+                    row_spec(0, bold = TRUE) %>%
+                    row_spec(2:nrow(Df)-1, hline_after = TRUE) 
+
+cat(kable_output, file = full_path)
+}
 
 dataframesMSE <- list(
     list(df = MSE_All_BW, name = "MSE_All_BW"),
@@ -180,7 +279,7 @@ dataframesStat <- list(
     list(df = statSummary_ETA_V_DV, name = "statSummary_ETA_V_DV")
 )
 
-dataframestableSeven <- list(
+dataframestableNoEta <- list(
     list(df = parFixed_NoBSV_CP_10_Init_1, name = "parFixed_NoBSV_CP_10_Init_1"),
     list(df = parFixed_NoBSV_CP_100_Init_1, name = "parFixed_NoBSV_CP_100_Init_1"),
     list(df = parFixed_NoBSV_CP_25_Init_1, name = "parFixed_NoBSV_CP_25_Init_1"),
@@ -189,6 +288,66 @@ dataframestableSeven <- list(
     list(df = parFixed_NoBSV_DV_100_Init_1, name = "parFixed_NoBSV_DV_100_Init_1"),
     list(df = parFixed_NoBSV_DV_25_Init_1, name = "parFixed_NoBSV_DV_25_Init_1"),
     list(df = parFixed_NoBSV_DV_50_Init_1, name = "parFixed_NoBSV_DV_50_Init_1")
+)
+
+dataframestableEta4 <- list(
+    list(df = parFixed_ETA_ALL_CP_10_Init_1, name = "parFixed_ETA_ALL_CP_10_Init_1"),
+    list(df = parFixed_ETA_ALL_CP_100_Init_1, name = "parFixed_ETA_ALL_CP_100_Init_1"),
+    list(df = parFixed_ETA_ALL_CP_25_Init_1, name = "parFixed_ETA_ALL_CP_25_Init_1"),
+    list(df = parFixed_ETA_ALL_CP_50_Init_1, name = "parFixed_ETA_ALL_CP_50_Init_1")
+)
+
+dataframestableEta6 <- list(
+    list(df = parFixed_ETA_ALL_DV_10_Init_1, name = "parFixed_ETA_ALL_DV_10_Init_1"),
+    list(df = parFixed_ETA_ALL_DV_100_Init_1, name = "parFixed_ETA_ALL_DV_100_Init_1"),
+    list(df = parFixed_ETA_ALL_DV_25_Init_1, name = "parFixed_ETA_ALL_DV_25_Init_1"),
+    list(df = parFixed_ETA_ALL_DV_50_Init_1, name = "parFixed_ETA_ALL_DV_50_Init_1"),
+    list(df = parFixed_ETA_CLQ_CP_10_Init_1, name = "parFixed_ETA_CLQ_CP_10_Init_1"),
+    list(df = parFixed_ETA_CLQ_CP_100_Init_1, name = "parFixed_ETA_CLQ_CP_100_Init_1"),
+    list(df = parFixed_ETA_CLQ_CP_25_Init_1, name = "parFixed_ETA_CLQ_CP_25_Init_1"),
+    list(df = parFixed_ETA_CLQ_CP_50_Init_1, name = "parFixed_ETA_CLQ_CP_50_Init_1"),
+    list(df = parFixed_ETA_CLQ_DV_10_Init_1, name = "parFixed_ETA_CLQ_DV_10_Init_1"),
+    list(df = parFixed_ETA_CLQ_DV_100_Init_1, name = "parFixed_ETA_CLQ_DV_100_Init_1"),
+    list(df = parFixed_ETA_CLQ_DV_25_Init_1, name = "parFixed_ETA_CLQ_DV_25_Init_1"),
+    list(df = parFixed_ETA_CLQ_CP_50_Init_1, name = "parFixed_ETA_CLQ_CP_50_Init_1"),
+    list(df = parFixed_ETA_V_CP_10_Init_1, name = "parFixed_ETA_V_CP_10_Init_1"),
+    list(df = parFixed_ETA_V_CP_100_Init_1, name = "parFixed_ETA_V_CP_100_Init_1"),
+    list(df = parFixed_ETA_V_CP_25_Init_1, name = "parFixed_ETA_V_CP_25_Init_1"),
+    list(df = parFixed_ETA_V_CP_50_Init_1, name = "parFixed_ETA_V_CP_50_Init_1"),
+    list(df = parFixed_ETA_V_DV_10_Init_1, name = "parFixed_ETA_V_DV_10_Init_1"),
+    list(df = parFixed_ETA_V_DV_100_Init_1, name = "parFixed_ETA_V_DV_100_Init_1"),
+    list(df = parFixed_ETA_V_DV_25_Init_1, name = "parFixed_ETA_V_DV_25_Init_1"),
+    list(df = parFixed_ETA_V_DV_50_Init_1, name = "parFixed_ETA_V_DV_50_Init_1")
+)
+
+dataframestableEtaBW4 <- list(
+    list(df = BW.parFixed_ETA_ALL_CP_10_Init_1, name = "BW.parFixed_ETA_ALL_CP_10_Init_1"),
+    list(df = BW.parFixed_ETA_ALL_CP_100_Init_1, name = "BW.parFixed_ETA_ALL_CP_100_Init_1"),
+    list(df = BW.parFixed_ETA_ALL_CP_25_Init_1, name = "BW.parFixed_ETA_ALL_CP_25_Init_1"),
+    list(df = BW.parFixed_ETA_ALL_CP_50_Init_1, name = "BW.parFixed_ETA_ALL_CP_50_Init_1")
+)
+
+dataframestableEtaBW6 <- list(
+    list(df = BW.parFixed_ETA_ALL_DV_10_Init_1, name = "BW.parFixed_ETA_ALL_DV_10_Init_1"),
+    list(df = BW.parFixed_ETA_ALL_DV_100_Init_1, name = "BW.parFixed_ETA_ALL_DV_100_Init_1"),
+    list(df = BW.parFixed_ETA_ALL_DV_25_Init_1, name = "BW.parFixed_ETA_ALL_DV_25_Init_1"),
+    list(df = BW.parFixed_ETA_ALL_DV_50_Init_1, name = "BW.parFixed_ETA_ALL_DV_50_Init_1"),
+    list(df = BW.parFixed_ETA_CLQ_CP_10_Init_1, name = "BW.parFixed_ETA_CLQ_CP_10_Init_1"),
+    list(df = BW.parFixed_ETA_CLQ_CP_100_Init_1, name = "BW.parFixed_ETA_CLQ_CP_100_Init_1"),
+    list(df = BW.parFixed_ETA_CLQ_CP_25_Init_1, name = "BW.parFixed_ETA_CLQ_CP_25_Init_1"),
+    list(df = BW.parFixed_ETA_CLQ_CP_50_Init_1, name = "BW.parFixed_ETA_CLQ_CP_50_Init_1"),
+    list(df = BW.parFixed_ETA_CLQ_DV_10_Init_1, name = "BW.parFixed_ETA_CLQ_DV_10_Init_1"),
+    list(df = BW.parFixed_ETA_CLQ_DV_100_Init_1, name = "BW.parFixed_ETA_CLQ_DV_100_Init_1"),
+    list(df = BW.parFixed_ETA_CLQ_DV_25_Init_1, name = "BW.parFixed_ETA_CLQ_DV_25_Init_1"),
+    list(df = BW.parFixed_ETA_CLQ_CP_50_Init_1, name = "BW.parFixed_ETA_CLQ_CP_50_Init_1"),
+    list(df = BW.parFixed_ETA_V_CP_10_Init_1, name = "BW.parFixed_ETA_V_CP_10_Init_1"),
+    list(df = BW.parFixed_ETA_V_CP_100_Init_1, name = "BW.parFixed_ETA_V_CP_100_Init_1"),
+    list(df = BW.parFixed_ETA_V_CP_25_Init_1, name = "BW.parFixed_ETA_V_CP_25_Init_1"),
+    list(df = BW.parFixed_ETA_V_CP_50_Init_1, name = "BW.parFixed_ETA_V_CP_50_Init_1"),
+    list(df = BW.parFixed_ETA_V_DV_10_Init_1, name = "BW.parFixed_ETA_V_DV_10_Init_1"),
+    list(df = BW.parFixed_ETA_V_DV_100_Init_1, name = "BW.parFixed_ETA_V_DV_100_Init_1"),
+    list(df = BW.parFixed_ETA_V_DV_25_Init_1, name = "BW.parFixed_ETA_V_DV_25_Init_1"),
+    list(df = BW.parFixed_ETA_V_DV_50_Init_1, name = "BW.parFixed_ETA_V_DV_50_Init_1")
 )
 
 for (item in dataframesMSE) {
@@ -215,6 +374,22 @@ for (item in dataframesStat) {
     DFSAVEstat(item$df, item$name)
 }
 
-for (item in dataframestableSeven) {
-    DFSAVEtableSeven(item$df, item$name)
+for (item in dataframestableNoEta) {
+    DFSAVEtableNoEta(item$df, item$name)
+}
+
+for (item in dataframestableEta4) {
+    DFSAVEtableWEta4(item$df, item$name)
+}
+
+for (item in dataframestableEta6) {
+    DFSAVEtableWEta6(item$df, item$name)
+}
+
+for (item in dataframestableEtaBW4) {
+    DFSAVEtableWEtaBW4(item$df, item$name)
+}
+
+for (item in dataframestableEtaBW6) {
+    DFSAVEtableWEtaBW6(item$df, item$name)
 }
