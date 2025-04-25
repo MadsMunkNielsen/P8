@@ -9,7 +9,7 @@ estMethod <- "focei"
 
 # The initial values needed in the model
 initials_list <- list(
-  list(tka_init = 0.0025, tq_init = 0.304, tcl_init = 0.034, tvc_init = 3.59, tvp_init = 4.1, eta.q_init = 0.2, eta.vp_init = 0.2, prop.sd_init = 0.2)
+  list(tka_init = 0.0253, tq_init = 0.304, tcl_init = 0.0348, tvc_init = 3.59, tvp_init = 4.1, eta.q_init = 0.2, eta.vp_init = 0.2, prop.sd_init = 0.2)
 )
 
 

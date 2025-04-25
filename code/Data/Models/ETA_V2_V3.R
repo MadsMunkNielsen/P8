@@ -2,14 +2,14 @@ source("Data/Models/Models.R")
 
 
 # Amount of subjects to include in the model
-Amount_Of_Subjects <- c(10)
+Amount_Of_Subjects <- c(10, 25, 50, 100)
 
 # Specify the estimation method 
 estMethod <- "focei"
 
 # The initial values needed in the model
 initials_list <- list(
-  list(tka_init = 0.0025, tq_init = 0.304, tcl_init = 0.034, tvc_init = 3.59, tvp_init = 4.1, eta.vp_init = 0.2, prop.sd_init = 0.2)
+  list(tka_init = 0.0253, tq_init = 0.304, tcl_init = 0.0348, tvc_init = 3.59, tvp_init = 4.1, eta.vp_init = 0.2, prop.sd_init = 0.2)
 )
 
 
