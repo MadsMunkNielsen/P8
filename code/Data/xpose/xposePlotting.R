@@ -2,11 +2,21 @@ library(xpose)
 library(xpose.nlmixr2)
 library(ggplot2)
 library(nlmixr2)
+library(vpc)
 source("Data/xpose/SaveXpose.R")
 
 
 results_vector <- c(results_Eta_V, results_Eta_CL_Q, results_Eta_All, results_BW_Eta_V, results_BW_Eta_CL_Q, results_BW_Eta_All)
 
+
+vpc_theme <- new_vpc_theme(update = list(
+  obs_color = "black",
+  obs_ci_color = "black",
+  obs_alpha = .6,
+  sim_pi_fill = "#2A918B",
+  sim_median_fill = "#005AD2",
+  sim_pi_size = 4
+))
 
 
 for (i in names(results_vector)) {
@@ -156,7 +166,7 @@ res_qq_plot <- res_qq(xpdb, res="CWRES", line_alpha = 0, point_color = "#001965"
 SaveXpose_RES_QQ(paste0(names(results_vector[i]), ".pdf"), res_qq_plot)
 
 
-vpcPlot <- vpcPlot(results_vector[[i]], n=1000) +
+vpcPlot <- vpcPlot(results_vector[[i]], n=1000, vpc_theme = vpc_theme) +
             theme_minimal()
 SaveXpose_VPC(paste0(names(results_vector[i]), ".pdf"), vpcPlot)
 
