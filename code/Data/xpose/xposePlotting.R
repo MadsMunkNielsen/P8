@@ -172,3 +172,10 @@ SaveXpose_VPC(paste0(names(results_vector[i]), ".pdf"), vpcPlot)
 
     xpdb <- c()
 }
+
+
+# Creating an additional VPC plot
+vpcPlot <- vpcPlot(results_None_NLS$NoBSV_DV_100_Init_1, n=1000, vpc_theme = vpc_theme) +
+            theme_minimal()
+
+SaveXpose_VPC("NoBSV_DV_100_Init_1.pdf", vpcPlot)
