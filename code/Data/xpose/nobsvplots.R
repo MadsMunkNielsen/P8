@@ -25,13 +25,16 @@ combined_IPRED <- ggplot(combined_data, aes(x = IPRED)) +
   theme(
     legend.title = element_blank(),
     legend.text = element_text(size = 15), 
-    legend.position = "bottom") 
+    legend.position = "bottom",
+    axis.text.y = element_text(size = 30),
+    axis.text.x = element_text(size = 30),
+    axis.ticks = element_line(size = 5)) 
 
 
-# Generate the plot
+
 combined_IPRED.V2 <- ggplot(combined_data, aes(x = IPRED)) +
-  geom_point(aes(y = DV, group = ID), color = "#001965") +  
-  geom_line(aes(y = IPRED_NLS, color = "NLS"), size = 0.9) + 
+  geom_point(aes(y = DV, group = ID), color = "#001965") +
+  geom_line(aes(y = IPRED_NLS, color = "NLS"), size = 0.9) +
   geom_line(aes(y = IPRED_FOCEI, color = "FOCEI"), size = 0.9) +
   labs(title = "",
        x = "IPRED",
@@ -39,10 +42,14 @@ combined_IPRED.V2 <- ggplot(combined_data, aes(x = IPRED)) +
   theme_minimal() +
   theme(
     legend.title = element_blank(),
-    legend.text = element_text(size = 15),
-    legend.position = "bottom") +
-  scale_color_manual(values = c(colors, "FOCEI" = "#3B97DE", "NLS" = "#005AD2"))  # Combine color scales
-
+    legend.text = element_text(size = 22),
+    legend.position = "bottom",
+    legend.key.size = unit(1.5, "cm"),
+    axis.title.x = element_text(size = 25),
+    axis.title.y = element_text(size = 25),
+    axis.text.y = element_text(size = 22),
+    axis.text.x = element_text(size = 22)) +
+  scale_color_manual(values = c("FOCEI" = "#2A918B", "NLS" = "#005AD2"))  # Combine color scales
 
 
 
@@ -50,27 +57,36 @@ combined_IPRED.V2 <- ggplot(combined_data, aes(x = IPRED)) +
 dv_and_ipred_vs_time_100_nls <- ggplot(results_None_NLS$NoBSV_DV_100_Init_1, aes(x = TIME)) +
   geom_line(aes(y = DV, group = ID, linetype = "Solid"), size = 0.7, alpha= 0.5, color = "#001965") +
   geom_point(aes(y = DV, group = ID), shape = 16, size = 3, alpha= 0.7, color = "#001965") +
-  geom_line(aes(y = IPRED, group = ID), size = 1, color = "#3B97DE") + e
+  geom_line(aes(y = IPRED, group = ID), size = 1, color = "#3B97DE") +
   labs(title = "",
        x = "Time",
        y = "DV",
        linetype = "Variables") +
   theme_minimal() +
-  theme(legend.position = "none") 
+  theme(,
+    axis.title.x = element_text(size = 25),
+    axis.title.y = element_text(size = 25),
+    axis.text.y = element_text(size = 22),
+    axis.text.x = element_text(size = 22),
+    legend.position = "none")
 
 
 # DV and IPRED vs Time for 10 subject est = NLS
 dv_and_ipred_vs_time_10_nls <- ggplot(results_None_NLS$NoBSV_DV_10_Init_1, aes(x = TIME)) +
   geom_line(aes(y = DV, group = ID, linetype = "Solid"), size = 0.7, alpha= 0.5, color = "#001965") +
   geom_point(aes(y = DV, group = ID), shape = 16, size = 3, alpha= 0.7, color = "#001965") +
-  geom_line(aes(y = IPRED, group = ID), size = 1, color = "#3B97DE") + 
+  geom_line(aes(y = IPRED, group = ID), size = 1, color = "#3B97DE") +
   labs(title = "",
        x = "Time",
        y = "DV",
        linetype = "Variables") +
   theme_minimal() +
-  theme(legend.position = "none") 
-
+  theme(
+    axis.title.x = element_text(size = 25),
+    axis.title.y = element_text(size = 25),
+    axis.text.y = element_text(size = 22),
+    axis.text.x = element_text(size = 22),
+    legend.position = "none")
 
 
 
