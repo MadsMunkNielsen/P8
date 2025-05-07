@@ -319,6 +319,17 @@ BW_ETA_all_list_parFixed_tables <- list(BW.parFixed_BW_ETA_ALL_DV_10_Init_1,
                                         BW.parFixed_BW_ETA_ALL_DV_50_Init_1,
                                         BW.parFixed_BW_ETA_ALL_DV_100_Init_1)
 
+# BW + ETA on all
+BW_ETA_all_Cor_list_parFixed_tables <- list(BW.parFixed_BW_ETA_ALL_Cor_DV_10_Init_1,
+                                        BW.parFixed_BW_ETA_ALL_Cor_DV_25_Init_1,
+                                        BW.parFixed_BW_ETA_ALL_Cor_DV_50_Init_1,
+                                        BW.parFixed_BW_ETA_ALL_Cor_DV_100_Init_1)
+
+ETA_all_Cor_list_parFixed_tables <- list(parFixed_ETA_ALL_Cor_DV_10_Init_1,
+                                        parFixed_ETA_ALL_Cor_DV_25_Init_1,
+                                        parFixed_ETA_ALL_Cor_DV_50_Init_1,
+                                        parFixed_ETA_ALL_Cor_DV_100_Init_1)
+
 # Calling the parameter_plot() for each model 
 parameter_plot(noBSV_NLS_list_parFixed_tables, "noBSV")
 parameter_plot(noBSV_list_parFixed_tables, "noBSV_focei")
@@ -328,6 +339,9 @@ parameter_plot(ETA_all_list_parFixed_tables, "all")
 parameter_plot(BW_ETA_CL_Q_list_parFixed_tables, "BW_CLQ")
 parameter_plot(BW_ETA_V_list_parFixed_tables, "BW_V")
 parameter_plot(BW_ETA_all_list_parFixed_tables, "BW_all")
+parameter_plot(BW_ETA_all_Cor_list_parFixed_tables, "BW_all_cor")
+parameter_plot(ETA_all_Cor_list_parFixed_tables, "all_cor")
+
 
 # Call funktion to make legend
 parameter_plot_legend(noBSV_NLS_list_parFixed_tables, "noBSV")

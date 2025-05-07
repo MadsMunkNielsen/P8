@@ -68,7 +68,8 @@ PKPDModel <- ggplot(data = EffectDF, aes(x = t)) +
     axis.text.x = element_blank(), # Keep the x-axis text
     legend.title = element_blank(), # Optionally removes the legend title
     legend.text = element_text(size = 15), # Adjusts legend text size
-    legend.position = "bottom" # Places legend at the bottom
+    legend.position = "bottom", # Places legend at the bottom
+    legend.key.size = unit(1.5, "cm")
   ) +
   scale_color_manual(values = c("Concentration" = "#001965", "Effect" = "#3B97DE")) +
   geom_segment(aes(x = 0, xend = max(EffectDF$t), y = 0, yend = 0), color = "black", size = 0.5) +
