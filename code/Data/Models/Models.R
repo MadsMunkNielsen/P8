@@ -181,4 +181,56 @@ two.cmt.depot.All.BW <- function(tka_init, tq_init, tcl_init, tvc_init, tvp_init
   })
 }
 
-results_None$NoBSV_CP_10_Init_1
+two.cmt.depot.All.Cor <- function(tka_init, tq_init, tcl_init, tvc_init, tvp_init, eta.q_init, eta.vp_init, prop.sd_init, cov) {
+  ini({
+    tka <- log(tka_init)       # Absorption
+    tq <- log(tq_init)        # Inter-compartmental clearance
+    tcl <- log(tcl_init)       # Clearance
+    tvc <- log(tvc_init)      # Volume, central
+    tvp <- log(tvp_init)      # Volume, peripheral
+    eta.q + eta.vp ~ c(eta.q_init,
+                        cov, eta.vp_init)
+    prop.sd <- prop.sd_init   # Residual error
+  })
+  model({
+    ka <- exp(tka)
+    cl <- exp(tcl + eta.q)
+    vp <- exp(tvp + eta.vp)
+    vc <- exp(tvc + eta.vp)
+    q <- exp(tq + eta.q)
+    # ODEs
+    d/dt(depot) = -ka * depot
+    d/dt(central) = ka * depot - cl/vc * central + q/vp * peripheral - q/vc * central
+    d/dt(peripheral) = q/vc * central - q/vp * peripheral
+    conc <- central / vc
+    conc ~ prop(prop.sd)
+  })
+}
+
+two.cmt.depot.All.BW.Cor <- function(tka_init, tq_init, tcl_init, tvc_init, tvp_init, eta.q_init, eta.vp_init, prop.sd_init, cov, pow1, pow2) {
+  ini({
+    tka <- log(tka_init)       # Absorption
+    tq <- log(tq_init)        # Inter-compartmental clearance
+    tcl <- log(tcl_init)       # Clearance
+    tvc <- log(tvc_init)      # Volume, central
+    tvp <- log(tvp_init)      # Volume, peripheral
+    pow1 <- pow1
+    pow2 <- pow2
+    eta.q + eta.vp ~ c(eta.q_init,
+                        cov, eta.vp_init)
+    prop.sd <- prop.sd_init    # Residual error
+  })
+  model({
+    ka <- exp(tka)
+    cl <- exp(tcl) * (BWBASE/85)^(pow1) * exp(eta.q)
+    vp <- exp(tvp) * (BWBASE/85)^(pow2) * exp(eta.vp)
+    vc <- exp(tvc) * (BWBASE/85)^(pow2) * exp(eta.vp)
+    q <- exp(tq) * (BWBASE/85)^(pow1) * exp(eta.q)
+    # ODEs
+    d/dt(depot) = -ka * depot
+    d/dt(central) = ka * depot - cl/vc * central + q/vp * peripheral - q/vc * central
+    d/dt(peripheral) = q/vc * central - q/vp * peripheral
+    conc <- central / vc
+    conc ~ prop(prop.sd)
+  })
+}
